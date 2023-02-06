@@ -7,6 +7,7 @@ class Shader;
 class Mesh;
 class MeshManager;
 class Scene;
+class Transform;
 
 class WindowTransform
 {
@@ -14,10 +15,11 @@ public:
 	WindowTransform(Scene* scene);
 	void Draw();
 	void BindShader();
-	void BindTransition(glm::vec3* transition);
+	void setTransform(Transform* transform);
 private:
 	Scene* m_scene;
 	Shader* shader;
+	Transform* m_Transform;
 	const char* vertexShader = "Shaders/vertexShader.vert";
 	const char* fragmentShader = "Shaders/fragmentShader.frag";
 	glm::vec3* m_Transition;

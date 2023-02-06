@@ -17,10 +17,10 @@ Mesh* MeshManager::createSquare() {
 	{
 		float length = 1.0f;
 		VertexTypeList vertexList = {
-		-length / 2, -length / 2, 0.0f, //left bottom point 0
-		length / 2, -length / 2, 0.0f, // right bottom point 1 
-		-length / 2, length / 2, 0.0f, //left top point 2 
-		length / 2, length / 2, 0.0f // right top 3
+		-length / 2, -length / 2, 1.0f, //left bottom point 0
+		length / 2, -length / 2, 1.0f, // right bottom point 1 
+		-length / 2, length / 2, 1.0f, //left top point 2 
+		length / 2, length / 2, 1.0f // right top 3
 		};
 
 		//Mapping our square
@@ -70,9 +70,9 @@ Mesh* MeshManager::createTriangle() {
 		std::vector<unsigned int>   indexList;*/
 
 		VertexTypeList vertices = {
-			-length / 2, -length / 2, 0.0f, //left bottom point 0
-			length / 2, -length / 2, 0.0f, // right bottom point 1 
-			-length / 2, length / 2, 0.0f, //left top point 2 
+			-length / 2, -length / 2, 1.0f, //left bottom point 0
+			length / 2, -length / 2, 1.0f, // right bottom point 1 
+			-length / 2, length / 2, 1.0f, //left top point 2 
 		};
 
 		//Mapping our triangle

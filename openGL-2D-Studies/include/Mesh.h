@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 class VertexArrayObject;
 class MeshManager;
@@ -14,3 +15,4 @@ private:
 
 	friend class MeshManager;
 };
+typedef std::vector<Mesh*> MeshList;

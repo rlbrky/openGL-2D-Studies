@@ -61,7 +61,7 @@ void Shader::CompileShader(const char* vertexCode, const char* fragmentCode) {
 		return;
 	}
 
-	uniformPosSetter = glGetUniformLocation(shaderID, "uSet");
+	uniformMtxTransform = glGetUniformLocation(shaderID, "uMtxTransform");
 	uniformColor = glGetUniformLocation(shaderID, "uColor");
 }
 
@@ -108,12 +108,12 @@ unsigned int Shader::GetID() {
 	return shaderID;
 }
 
-void Shader::SetUniformPositionSetter(glm::vec3 posSet) {
-	glUniform3f(uniformPosSetter, posSet.x, posSet.y, posSet.z);
-}
-
 void Shader::SetUniformColor(glm::vec4 color) {
 	glUniform4f(uniformColor, color.r, color.g, color.b, color.a);
+}
+
+void Shader::SetUniformMatrixTransform(glm::mat3 transform) {
+	glUniformMatrix3fv(uniformMtxTransform, 1, GL_FALSE, glm::value_ptr(transform));
 }
 
 Shader::~Shader() {

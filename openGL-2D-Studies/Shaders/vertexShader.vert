@@ -2,8 +2,8 @@
 
 layout(location = 0) in vec3 inPosition;
 
-uniform vec3 uSet;
+uniform mat3 uMtxTransform;
 
 void main(){
-    gl_Position = vec4(inPosition+uSet, 1.0);
+    gl_Position = vec4(uMtxTransform * inPosition, 1.0f);
 }

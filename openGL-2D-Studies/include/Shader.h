@@ -5,14 +5,15 @@
 #include<string>
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
-
+#include <glm/mat3x3.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <glad.h>
 
 class Shader {
 private:
 	unsigned int shaderID;
 
-	unsigned int uniformPosSetter, uniformColor;
+	unsigned int uniformColor, uniformMtxTransform;
 
 	void CompileShader(const char* vertexCode, const char* fragmentCode);
 	void AddShader(unsigned int program, const char* shaderCode, GLenum shaderType);
@@ -24,8 +25,8 @@ public:
 	void UseShader();
 	void ClearShader();
 
-	void SetUniformPositionSetter(glm::vec3 posSet);
 	void SetUniformColor(glm::vec4 color);
+	void SetUniformMatrixTransform(glm::mat3 transform);
 
 	unsigned int GetID();
 	~Shader();

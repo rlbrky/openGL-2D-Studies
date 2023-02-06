@@ -14,6 +14,8 @@
 #include "Scene.h"
 #include "WindowTransform.h"
 #include "SetupHandler.h"
+#include "Transform.h"
+#include "SceneNode.h"
 
 #include <vector>
 
@@ -22,11 +24,13 @@ Grid* grid;
 
 std::vector<Mesh*> meshList;
 
-glm::mat3 Transform;
 glm::vec2 vecMove;
 
 Scene* scene;
 Camera camera;
+SceneNode* node;
+
+Transform* transform;
 
 unsigned int programID;
 
@@ -44,8 +48,13 @@ int main() {
 	setupHandler->Build(800, 800);
 	
 	camera.setCameraPosition(glm::vec3(3, 3, 3));
+	
+	//DÝKKAT!
 
+	node = new SceneNode();
+	
 	scene = new Scene(setupHandler->GetWindowPtr());
+	transform = new Transform();
 	MeshManager* manager = scene->getMeshManager();
 	//scene->Build(setupHandler->GetWindowPtr());
 	//BURADAN DEVAM EDÝLECEK.
@@ -54,8 +63,11 @@ int main() {
 	/*meshList.push_back(manager->createSquare());
 	meshList.push_back(manager->createTriangle());
 	meshList.push_back(manager->createCircle(0.3,24));*/
-
+	scene->GetWindowTransform()->setTransform(transform);
+	transform->Update();
 	setupHandler->AddRenderFunction(std::bind(&Scene::Draw, scene));
+
+	
 
 	setupHandler->BeginRenderLoop();
 		

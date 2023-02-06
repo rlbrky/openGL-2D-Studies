@@ -7,6 +7,7 @@
 #include "imgui_impl_opengl3.h"
 #include "Scene.h"
 #include "MeshManager.h"
+#include "Transform.h"
 
 WindowTransform::WindowTransform(Scene* scene)
 {
@@ -15,14 +16,14 @@ WindowTransform::WindowTransform(Scene* scene)
 	BindShader();
 }
 
-void WindowTransform::BindTransition(glm::vec3* transition)
-{
-	m_Transition = transition;
-}
-
 //Can add parameters for different shaders.
 void WindowTransform::BindShader() {
 	shader->CreateFromFiles(vertexShader, fragmentShader);
+}
+
+void WindowTransform::setTransform(Transform* transform)
+{
+	m_Transform = transform;
 }
 
 void WindowTransform::Draw()
@@ -30,8 +31,8 @@ void WindowTransform::Draw()
 	for (auto& mesh: meshList)
 	{
 		shader->UseShader();
-		shader->SetUniformPositionSetter(glm::vec3(-0.5f, 0.3f, 0.0f));
 		shader->SetUniformColor(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+		shader->SetUniformMatrixTransform(m_Transform->getMatrix());
 		mesh.Draw();
 	}
 
@@ -49,13 +50,20 @@ void WindowTransform::Draw()
 	}
 	//Çalýþmýyor ?
 	if (ImGui::Button("Circle")) {
-		meshList.push_back(*m_scene->getMeshManager()->createCircle(5.0f, 32));
+		meshList.push_back(*m_scene->getMeshManager()->createCircle(0.5f, 4));
 	}
-	//ImGui::SliderFloat("lol", )
+	glm::vec2& angles = m_Transform->getEulerAngles();
+	glm::vec2& position = m_Transform->getPosition();
+	ImGui::SliderFloat("rotation", &angles.x, 0, 360);
+	ImGui::SliderFloat2("transition", &position.x, -1, 1);
 	//SLIDERFLOAT--IMGUI -- vec3 olarak deðerleri shadera at.
 	ImGui::End();
 	ImGui::EndFrame();
 
 	ImGui::Render();
+
+	m_Transform->setPosition(position);
+	m_Transform->setEulerAngles(angles);
+
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
