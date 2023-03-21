@@ -31,7 +31,7 @@ void WindowTransform::Draw()
 	for (auto& mesh: meshList)
 	{
 		shader->UseShader();
-		shader->SetUniformColor(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+		shader->SetUniformColor(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
 		shader->SetUniformMatrixTransform(m_Transform->getMatrix());
 		mesh.Draw();
 	}
@@ -41,21 +41,46 @@ void WindowTransform::Draw()
 
 	ImGui::NewFrame();
 	ImGui::Begin("Object Creator");
-	
+
+	/*glm::vec2& squareAngles = m_squareTransform->getEulerAngles();
+	glm::vec2& squarePosition = m_squareTransform->getPosition();
+	glm::vec2& triangleAngles = m_triangleTransform->getEulerAngles();
+	glm::vec2& trianglePosition = m_triangleTransform->getPosition();
+	*/
 	if (ImGui::Button("Square")) {
 		meshList.push_back(*m_scene->getMeshManager()->createSquare());
+		
+		
 	}
 	if (ImGui::Button("Triangle")) {
 		meshList.push_back(*m_scene->getMeshManager()->createTriangle());
+		
+		
 	}
 	//Çalýþmýyor ?
 	if (ImGui::Button("Circle")) {
 		meshList.push_back(*m_scene->getMeshManager()->createCircle(0.5f, 4));
 	}
+
 	glm::vec2& angles = m_Transform->getEulerAngles();
 	glm::vec2& position = m_Transform->getPosition();
-	ImGui::SliderFloat("rotation", &angles.x, 0, 360);
-	ImGui::SliderFloat2("transition", &position.x, -1, 1);
+
+	ImGui::SliderFloat("Square Rotation", &angles.x, 0, 360);
+	ImGui::SliderFloat2("Square Transition", &position.x, -1, 1);
+
+	
+	/*ImGui::SliderFloat("Square Rotation", &squareAngles.x, 0, 360);
+	ImGui::SliderFloat2("Square Transition", &squarePosition.x, -1, 1);
+
+	m_squareTransform->setPosition(squarePosition);
+	m_squareTransform->setEulerAngles(squareAngles);
+
+	ImGui::SliderFloat("Triangle Rotation", &triangleAngles.x, 0, 360);
+	ImGui::SliderFloat2("Triangle Transition", &trianglePosition.x, -1, 1);
+
+	m_triangleTransform->setPosition(trianglePosition);
+	m_triangleTransform->setEulerAngles(triangleAngles);*/
+
 	//SLIDERFLOAT--IMGUI -- vec3 olarak deðerleri shadera at.
 	ImGui::End();
 	ImGui::EndFrame();
