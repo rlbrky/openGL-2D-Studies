@@ -56,14 +56,9 @@ int main() {
 	scene = new Scene(setupHandler->GetWindowPtr());
 	transform = new Transform();
 	MeshManager* manager = scene->getMeshManager();
-	//scene->Build(setupHandler->GetWindowPtr());
-	//BURADAN DEVAM EDÝLECEK.
-	//scene->GetWindowTransform()->BindShader();
 
-	/*meshList.push_back(manager->createSquare());
-	meshList.push_back(manager->createTriangle());
-	meshList.push_back(manager->createCircle(0.3,24));*/
 	scene->GetWindowTransform()->setTransform(transform);
+	//Node update ve node draw'a geçilmeli.
 	transform->Update();
 	setupHandler->AddRenderFunction(std::bind(&Scene::Draw, scene));
 

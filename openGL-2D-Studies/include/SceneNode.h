@@ -22,6 +22,7 @@ public:
 	void AddMesh(Mesh* mesh);
 	void SetParent(SceneNode* parent);
 	void SetName(const std::string& name);
+	void SetTransform(Transform* transform);
 
 	std::string GetName();
 	SceneNode* GetChild(int index);

@@ -3,6 +3,7 @@
 SceneNode::SceneNode(SceneNode* parent)
 {
 	m_parent = parent;
+	m_transform = new Transform();
 }
 
 void SceneNode::Build(MeshManager* MeshManager)
@@ -15,7 +16,8 @@ void SceneNode::Start()
 
 void SceneNode::Update()
 {
-	//UPDATE ÝÞLEMLERÝ
+	//UPDATE Codes
+	m_transform->Update();
 
 	for (auto nextNode : m_childs)
 		nextNode->Update();
@@ -25,6 +27,10 @@ void SceneNode::Draw(Shader* shader)
 {
 	for (auto nextMesh : m_meshes)
 		nextMesh->Draw();
+	/*for (auto nextNode : m_childs)
+		nextNode->Draw(shader);
+		Çocuklarýn çizdirilmesi için.
+		*/
 }
 
 void SceneNode::AddChild(SceneNode* child)
@@ -45,6 +51,13 @@ void SceneNode::SetParent(SceneNode* parent)
 void SceneNode::SetName(const std::string& name)
 {
 	m_name = name;
+}
+
+void SceneNode::SetTransform(Transform* transform)
+{
+	if (m_transform)
+		delete m_transform;
+	m_transform = transform;
 }
 
 std::string SceneNode::GetName()

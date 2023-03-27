@@ -38,8 +38,12 @@ void WindowTransform::Draw()
 
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
-
 	ImGui::NewFrame();
+
+	ImGui::Begin("Hierarchy");
+	ImGui::Text("Hierarchy test text");
+	ImGui::End();
+
 	ImGui::Begin("Object Creator");
 
 	/*glm::vec2& squareAngles = m_squareTransform->getEulerAngles();
@@ -47,15 +51,19 @@ void WindowTransform::Draw()
 	glm::vec2& triangleAngles = m_triangleTransform->getEulerAngles();
 	glm::vec2& trianglePosition = m_triangleTransform->getPosition();
 	*/
+
+	//TO DO: Every object should have their own color manipulation. Every object should move on their own.
 	if (ImGui::Button("Square")) {
 		meshList.push_back(*m_scene->getMeshManager()->createSquare());
-		
-		
+		/*ImGui::Begin("Heirarchy");
+		ImGui::Text("Square");
+		ImGui::End();
+		Buradaki kod yanlýþ bir uygulama, parent child iliþkisini kurabileceðin
+		scene node sýnýfýnýn üzerinden bu isim ekleme iþlemleri halledilmeli.
+		*/
 	}
 	if (ImGui::Button("Triangle")) {
 		meshList.push_back(*m_scene->getMeshManager()->createTriangle());
-		
-		
 	}
 	//Çalýþmýyor ?
 	if (ImGui::Button("Circle")) {
@@ -69,7 +77,10 @@ void WindowTransform::Draw()
 	ImGui::SliderFloat2("Square Transition", &position.x, -1, 1);
 
 	
-	/*ImGui::SliderFloat("Square Rotation", &squareAngles.x, 0, 360);
+	/*
+	Bu kodlar fikir vermesi için burada
+
+	ImGui::SliderFloat("Square Rotation", &squareAngles.x, 0, 360);
 	ImGui::SliderFloat2("Square Transition", &squarePosition.x, -1, 1);
 
 	m_squareTransform->setPosition(squarePosition);
