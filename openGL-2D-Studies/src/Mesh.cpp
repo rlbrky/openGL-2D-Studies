@@ -2,6 +2,7 @@
 #include "VertexArrayObject.h"
 #include<glad.h>
 
+//Bu fonksiyona parametre olarak shader eklenip shader iþlemleri gerçekleþtirilebilir.
 void Mesh::Draw() {
 	m_Vao->Activate();
 

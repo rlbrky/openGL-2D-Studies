@@ -15,7 +15,6 @@
 #include "WindowTransform.h"
 #include "SetupHandler.h"
 #include "Transform.h"
-#include "SceneNode.h"
 
 #include <vector>
 
@@ -28,7 +27,6 @@ glm::vec2 vecMove;
 
 Scene* scene;
 Camera camera;
-SceneNode* node;
 
 Transform* transform;
 
@@ -49,16 +47,11 @@ int main() {
 	
 	camera.setCameraPosition(glm::vec3(3, 3, 3));
 	
-	//DÝKKAT!
-
-	node = new SceneNode();
-	
 	scene = new Scene(setupHandler->GetWindowPtr());
 	transform = new Transform();
 	MeshManager* manager = scene->getMeshManager();
 
 	scene->GetWindowTransform()->setTransform(transform);
-	//Node update ve node draw'a geçilmeli.
 	transform->Update();
 	setupHandler->AddRenderFunction(std::bind(&Scene::Draw, scene));
 

@@ -1,4 +1,5 @@
 #include "SceneNode.h"
+#include "Shader.h"
 
 SceneNode::SceneNode(SceneNode* parent)
 {
@@ -25,6 +26,12 @@ void SceneNode::Update()
 
 void SceneNode::Draw(Shader* shader)
 {
+	shader->UseShader();
+	shader->SetUniformColor(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
+
+	glm::mat3 mtxTransform = m_transform->getMatrix();
+	shader->SetUniformMatrixTransform(mtxTransform);
+
 	for (auto nextMesh : m_meshes)
 		nextMesh->Draw();
 	/*for (auto nextNode : m_childs)

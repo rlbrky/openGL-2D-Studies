@@ -8,6 +8,7 @@ class Mesh;
 class MeshManager;
 class Scene;
 class Transform;
+class SceneNode;
 
 class WindowTransform
 {
@@ -20,6 +21,7 @@ private:
 	Scene* m_scene;
 	Shader* shader;
 	Transform* m_Transform;
+	SceneNode* sceneNode;
 	const char* vertexShader = "Shaders/vertexShader.vert";
 	const char* fragmentShader = "Shaders/fragmentShader.frag";
 	glm::vec3* m_Transition;

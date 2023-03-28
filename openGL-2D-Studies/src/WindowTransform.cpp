@@ -8,12 +8,14 @@
 #include "Scene.h"
 #include "MeshManager.h"
 #include "Transform.h"
+#include "SceneNode.h"
 
 WindowTransform::WindowTransform(Scene* scene)
 {
 	m_scene = scene;
 	shader = new Shader();
 	BindShader();
+	sceneNode = new SceneNode();
 }
 
 //Can add parameters for different shaders.
@@ -26,15 +28,18 @@ void WindowTransform::setTransform(Transform* transform)
 	m_Transform = transform;
 }
 
+//Gets called every frame
 void WindowTransform::Draw()
 {
-	for (auto& mesh: meshList)
+	/*for (auto& mesh : meshList)
 	{
-		shader->UseShader();
-		shader->SetUniformColor(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
-		shader->SetUniformMatrixTransform(m_Transform->getMatrix());
-		mesh.Draw();
-	}
+		//shader->SetUniformMatrixTransform(m_Transform->getMatrix());
+		//mesh.Draw();
+		sceneNode->SetTransform(m_Transform);
+		sceneNode->AddMesh(&mesh);
+	}*/
+
+	sceneNode->Draw(shader);
 
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
@@ -54,7 +59,10 @@ void WindowTransform::Draw()
 
 	//TO DO: Every object should have their own color manipulation. Every object should move on their own.
 	if (ImGui::Button("Square")) {
-		meshList.push_back(*m_scene->getMeshManager()->createSquare());
+		auto& mesh = *m_scene->getMeshManager()->createSquare();
+		meshList.push_back(mesh);
+		sceneNode->SetTransform(m_Transform);
+		sceneNode->AddMesh(&mesh);
 		/*ImGui::Begin("Heirarchy");
 		ImGui::Text("Square");
 		ImGui::End();
@@ -63,7 +71,10 @@ void WindowTransform::Draw()
 		*/
 	}
 	if (ImGui::Button("Triangle")) {
-		meshList.push_back(*m_scene->getMeshManager()->createTriangle());
+		auto& mesh = *m_scene->getMeshManager()->createTriangle();
+		meshList.push_back(mesh);
+		sceneNode->SetTransform(m_Transform);
+		sceneNode->AddMesh(&mesh);
 	}
 	//Çalýþmýyor ?
 	if (ImGui::Button("Circle")) {
