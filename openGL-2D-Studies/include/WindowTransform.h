@@ -25,6 +25,6 @@ private:
 	const char* vertexShader = "Shaders/vertexShader.vert";
 	const char* fragmentShader = "Shaders/fragmentShader.frag";
 	glm::vec3* m_Transition;
-	std::vector<Mesh> meshList;
+	//std::vector<Mesh> meshList;
 	std::vector<Transform> transformList;
 };

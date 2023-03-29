@@ -34,10 +34,8 @@ void SceneNode::Draw(Shader* shader)
 
 	for (auto nextMesh : m_meshes)
 		nextMesh->Draw();
-	/*for (auto nextNode : m_childs)
+	for (auto nextNode : m_childs)
 		nextNode->Draw(shader);
-		Çocuklarýn çizdirilmesi için.
-		*/
 }
 
 void SceneNode::AddChild(SceneNode* child)

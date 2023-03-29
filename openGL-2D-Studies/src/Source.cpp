@@ -52,7 +52,7 @@ int main() {
 	MeshManager* manager = scene->getMeshManager();
 
 	scene->GetWindowTransform()->setTransform(transform);
-	transform->Update();
+	//transform->Update();
 	setupHandler->AddRenderFunction(std::bind(&Scene::Draw, scene));
 
 	

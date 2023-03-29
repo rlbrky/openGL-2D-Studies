@@ -16,6 +16,7 @@ WindowTransform::WindowTransform(Scene* scene)
 	shader = new Shader();
 	BindShader();
 	sceneNode = new SceneNode();
+	sceneNode->SetName("Sahne");
 }
 
 //Can add parameters for different shaders.
@@ -47,6 +48,8 @@ void WindowTransform::Draw()
 
 	ImGui::Begin("Hierarchy");
 	ImGui::Text("Hierarchy test text");
+	//TO DO: SceneNode'un çocuklarý arasýnda iterate edip isimlerinin sahne hiyerarþisine yazdýrýlmasý.
+	ImGui::Text(sceneNode->GetName().c_str());
 	ImGui::End();
 
 	ImGui::Begin("Object Creator");
@@ -60,30 +63,42 @@ void WindowTransform::Draw()
 	//TO DO: Every object should have their own color manipulation. Every object should move on their own.
 	if (ImGui::Button("Square")) {
 		auto& mesh = *m_scene->getMeshManager()->createSquare();
-		meshList.push_back(mesh);
-		sceneNode->SetTransform(m_Transform);
-		sceneNode->AddMesh(&mesh);
-		/*ImGui::Begin("Heirarchy");
-		ImGui::Text("Square");
+		SceneNode* squareNode = new SceneNode();
+		squareNode->SetTransform(m_Transform);
+		squareNode->AddMesh(&mesh);
+		squareNode->SetName("KARE");
+		sceneNode->AddChild(squareNode);
+
+		//Düzgün çalýþmaz.
+		ImGui::Begin("Hierarchy");
+		ImGui::Text(squareNode->GetName().c_str());
 		ImGui::End();
-		Buradaki kod yanlýþ bir uygulama, parent child iliþkisini kurabileceðin
-		scene node sýnýfýnýn üzerinden bu isim ekleme iþlemleri halledilmeli.
-		*/
 	}
 	if (ImGui::Button("Triangle")) {
 		auto& mesh = *m_scene->getMeshManager()->createTriangle();
-		meshList.push_back(mesh);
-		sceneNode->SetTransform(m_Transform);
-		sceneNode->AddMesh(&mesh);
+		SceneNode* triangleNode = new SceneNode();
+		triangleNode->SetTransform(m_Transform);
+		triangleNode->AddMesh(&mesh);
+		triangleNode->SetName("ÜÇGEN");
+		sceneNode->AddChild(triangleNode);
+
+		//Düzgün çalýþmaz. Anlýk çalýþýp sonra siliyor, ADD metodu eklenmesi gerekebilir.
+		ImGui::Begin("Hierarchy");
+		ImGui::Text(triangleNode->GetName().c_str());
+		ImGui::End();
 	}
 	//Çalýþmýyor ?
 	if (ImGui::Button("Circle")) {
-		meshList.push_back(*m_scene->getMeshManager()->createCircle(0.5f, 4));
+		//meshList.push_back(*m_scene->getMeshManager()->createCircle(0.5f, 4));
+		auto& mesh = *m_scene->getMeshManager()->createCircle(0.5f, 12);
+		sceneNode->SetTransform(m_Transform);
+		sceneNode->AddMesh(&mesh);
 	}
 
 	glm::vec2& angles = m_Transform->getEulerAngles();
 	glm::vec2& position = m_Transform->getPosition();
 
+	//BU kýsým doðrudan sahneyi etkiliyor, objelerin tek tek manipülasyonu için ayrý bir yöntem gerek.
 	ImGui::SliderFloat("Square Rotation", &angles.x, 0, 360);
 	ImGui::SliderFloat2("Square Transition", &position.x, -1, 1);
 
