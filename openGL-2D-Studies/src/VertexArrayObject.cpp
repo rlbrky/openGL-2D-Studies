@@ -38,7 +38,6 @@ void VertexArrayObject::Build(const VertexTypeList& vertices, const IndexList& i
 void VertexArrayObject::Build(const vec3List& vertices) {
 	glGenVertexArrays(1, &m_VaoID);
 	glGenBuffers(1, &m_VboID);
-	glGenBuffers(1, &m_IboID);
 
 	glBindVertexArray(m_VaoID);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VboID);
@@ -49,13 +48,7 @@ void VertexArrayObject::Build(const vec3List& vertices) {
 
 	glEnableVertexAttribArray(0);
 
-	//Last number tells us that we are skipping 3 float points.
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(3 * sizeof(float)));
-
-	glEnableVertexAttribArray(1);
-
 	m_AttribList.push_back(0);
-	m_AttribList.push_back(1);
 
 	m_VertexCount = vertices.size();
 }

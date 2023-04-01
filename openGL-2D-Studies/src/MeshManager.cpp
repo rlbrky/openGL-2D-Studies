@@ -105,11 +105,12 @@ Mesh* MeshManager::createTriangle() {
 Mesh* MeshManager::createCircle(float radius, int pointCount) {
 	if (!m_VaoManager->GetVAO("circle"))
 	{
-		//CIRCLE VERTEX listesi lazým
 		vec3List vertexList;
+
 		std::vector<glm::vec3> tempVertices;
 		float angle = 360.0f / pointCount;
 		int triangleCount = pointCount - 2;
+
 		for (int i = 0; i < pointCount; i++) {
 			float newAngle = angle * i;
 
@@ -119,6 +120,7 @@ Mesh* MeshManager::createCircle(float radius, int pointCount) {
 
 			tempVertices.push_back(glm::vec3(x, y, z));
 		}
+
 		for (int i = 0; i < triangleCount; i++) {
 			vertexList.push_back(tempVertices[0]);
 			vertexList.push_back(tempVertices[i+1]);
@@ -131,6 +133,6 @@ Mesh* MeshManager::createCircle(float radius, int pointCount) {
 	}
 	Mesh* mesh = new Mesh();
 	mesh->m_Vao = m_VaoManager->GetVAO("circle");
-	mesh->m_IndexCount = mesh->m_Vao->GetIndexCount();
+	//mesh->m_IndexCount = mesh->m_Vao->GetIndexCount();
 	return mesh;
 }

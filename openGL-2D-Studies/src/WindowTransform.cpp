@@ -32,14 +32,6 @@ void WindowTransform::setTransform(Transform* transform)
 //Gets called every frame
 void WindowTransform::Draw()
 {
-	/*for (auto& mesh : meshList)
-	{
-		//shader->SetUniformMatrixTransform(m_Transform->getMatrix());
-		//mesh.Draw();
-		sceneNode->SetTransform(m_Transform);
-		sceneNode->AddMesh(&mesh);
-	}*/
-
 	sceneNode->Draw(shader);
 
 	ImGui_ImplOpenGL3_NewFrame();
@@ -47,85 +39,68 @@ void WindowTransform::Draw()
 	ImGui::NewFrame();
 
 	ImGui::Begin("Hierarchy");
-	ImGui::Text("Hierarchy test text");
-	//TO DO: SceneNode'un çocuklarý arasýnda iterate edip isimlerinin sahne hiyerarþisine yazdýrýlmasý.
 	ImGui::Text(sceneNode->GetName().c_str());
+	for (int i = 0; i < sceneNode->GetChildCount(); i++)
+	{
+		ImGui::Text(sceneNode->GetChild(i)->GetName().c_str());
+	}
 	ImGui::End();
 
 	ImGui::Begin("Object Creator");
-
-	/*glm::vec2& squareAngles = m_squareTransform->getEulerAngles();
-	glm::vec2& squarePosition = m_squareTransform->getPosition();
-	glm::vec2& triangleAngles = m_triangleTransform->getEulerAngles();
-	glm::vec2& trianglePosition = m_triangleTransform->getPosition();
-	*/
 
 	//TO DO: Every object should have their own color manipulation. Every object should move on their own.
 	if (ImGui::Button("Square")) {
 		auto& mesh = *m_scene->getMeshManager()->createSquare();
 		SceneNode* squareNode = new SceneNode();
-		squareNode->SetTransform(m_Transform);
+		Transform* squareTransform = new Transform();
+		transformList.push_back(squareTransform);
+		squareNode->SetTransform(squareTransform);
 		squareNode->AddMesh(&mesh);
-		squareNode->SetName("KARE");
+		squareNode->SetName("Square"); //TO DO: Unique names exp: Square 1-2-3...
 		sceneNode->AddChild(squareNode);
-
-		//Düzgün çalýþmaz.
-		ImGui::Begin("Hierarchy");
-		ImGui::Text(squareNode->GetName().c_str());
-		ImGui::End();
 	}
 	if (ImGui::Button("Triangle")) {
 		auto& mesh = *m_scene->getMeshManager()->createTriangle();
 		SceneNode* triangleNode = new SceneNode();
-		triangleNode->SetTransform(m_Transform);
+		Transform* triangleTransform = new Transform();
+		transformList.push_back(triangleTransform);
+		triangleNode->SetTransform(triangleTransform);
 		triangleNode->AddMesh(&mesh);
-		triangleNode->SetName("ÜÇGEN");
+		triangleNode->SetName("Triangle");
 		sceneNode->AddChild(triangleNode);
-
-		//Düzgün çalýþmaz. Anlýk çalýþýp sonra siliyor, ADD metodu eklenmesi gerekebilir.
-		ImGui::Begin("Hierarchy");
-		ImGui::Text(triangleNode->GetName().c_str());
-		ImGui::End();
 	}
 	//Çalýþmýyor ?
 	if (ImGui::Button("Circle")) {
-		//meshList.push_back(*m_scene->getMeshManager()->createCircle(0.5f, 4));
 		auto& mesh = *m_scene->getMeshManager()->createCircle(0.5f, 12);
-		sceneNode->SetTransform(m_Transform);
+		SceneNode* circleNode = new SceneNode();
+		Transform* circleTransform = new Transform();
+		transformList.push_back(circleTransform);
+		sceneNode->SetTransform(circleTransform);
 		sceneNode->AddMesh(&mesh);
+		circleNode->SetName("Circle");
+		sceneNode->AddChild(circleNode);
 	}
 
-	glm::vec2& angles = m_Transform->getEulerAngles();
-	glm::vec2& position = m_Transform->getPosition();
 
-	//BU kýsým doðrudan sahneyi etkiliyor, objelerin tek tek manipülasyonu için ayrý bir yöntem gerek.
-	ImGui::SliderFloat("Square Rotation", &angles.x, 0, 360);
-	ImGui::SliderFloat2("Square Transition", &position.x, -1, 1);
+	//Iterate through transformList and create ImGui sliders to manipulate rotation and transition of the object.
+	for (int i = 0; i < transformList.size(); i++)
+	{
+		auto& iter = transformList[i];
+		//To get unique ID's for the same name in ImGui we use Push/Pop ID functions.
+		ImGui::PushID(i);
+		ImGui::SliderFloat("Rotation", &iter->getEulerAngles().x, 0, 360);
+		ImGui::SliderFloat2("Transition", &iter->getPosition().x, -1, 1);
+		ImGui::PopID();
 
-	
-	/*
-	Bu kodlar fikir vermesi için burada
-
-	ImGui::SliderFloat("Square Rotation", &squareAngles.x, 0, 360);
-	ImGui::SliderFloat2("Square Transition", &squarePosition.x, -1, 1);
-
-	m_squareTransform->setPosition(squarePosition);
-	m_squareTransform->setEulerAngles(squareAngles);
-
-	ImGui::SliderFloat("Triangle Rotation", &triangleAngles.x, 0, 360);
-	ImGui::SliderFloat2("Triangle Transition", &trianglePosition.x, -1, 1);
-
-	m_triangleTransform->setPosition(trianglePosition);
-	m_triangleTransform->setEulerAngles(triangleAngles);*/
+		iter->setPosition(iter->getPosition());
+		iter->setEulerAngles(iter->getEulerAngles());
+	}
 
 	//SLIDERFLOAT--IMGUI -- vec3 olarak deðerleri shadera at.
 	ImGui::End();
 	ImGui::EndFrame();
 
 	ImGui::Render();
-
-	m_Transform->setPosition(position);
-	m_Transform->setEulerAngles(angles);
 
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }

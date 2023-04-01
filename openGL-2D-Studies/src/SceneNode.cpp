@@ -76,6 +76,12 @@ SceneNode* SceneNode::GetChild(int index)
 
 	return nullptr;
 }
+
+int SceneNode::GetChildCount()
+{
+	return m_childs.size();
+}
+
 SceneNode* SceneNode::GetParent()
 {
 	return m_parent;
