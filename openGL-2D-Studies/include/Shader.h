@@ -27,6 +27,7 @@ public:
 
 	void SetUniformColor(glm::vec4 color);
 	void SetUniformMatrixTransform(glm::mat3 transform);
+	void SetUniformMtx4(std::string name, glm::mat4 matrix);
 
 	unsigned int GetID();
 	~Shader();

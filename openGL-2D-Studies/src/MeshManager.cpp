@@ -32,31 +32,10 @@ Mesh* MeshManager::createSquare() {
 		vao->Build(vertexList, indexList);
 		m_VaoManager->AddNewObject("square", vao);
 	}
-	
-	/*std::vector<VertexTypes>   verticeList;
-	std::vector<unsigned int>   indexList;*/
-
-	//4 main points that will be reused when drawing.
-	/*VertexTypes vertices[] = {
-		-length/2, -length/2, 0.0f, //left bottom point 0
-		length / 2, -length / 2, 0.0f, // right bottom point 1 
-		-length / 2, length / 2, 0.0f, //left top point 2 
-		length / 2, length / 2, 0.0f // right top 3
-	};*/
-	
-
-	/*for (int i = 0; i < verticeList.size(); i++) {
-		verticeList.push_back(vertices[i]);
-	}
-
-	for (int i = 0; i < indexList.size(); i++) {
-		indexList.push_back(indices[i]);
-	}*/
 
 	Mesh* mesh = new Mesh();
 	mesh->m_Vao = m_VaoManager->GetVAO("square");
 	mesh->m_IndexCount = mesh->m_Vao->GetIndexCount();
-	//mesh->m_IndexCount = verticeList.size();
 
 	return mesh;
 }
@@ -66,8 +45,6 @@ Mesh* MeshManager::createTriangle() {
 	if (!m_VaoManager->GetVAO("triangle"))
 	{
 		float length = 1.0f;
-		/*std::vector<VertexTypes>   verticeList;
-		std::vector<unsigned int>   indexList;*/
 
 		VertexTypeList vertices = {
 			-length / 2, -length / 2, 1.0f, //left bottom point 0
@@ -84,15 +61,6 @@ Mesh* MeshManager::createTriangle() {
 		vao->Build(vertices, indexList);
 		m_VaoManager->AddNewObject("triangle", vao);
 	}
-	
-
-	/*for (int i = 0; i < verticeList.size(); i++) {
-		verticeList.push_back(vertices[i]);
-	}
-
-	for (int i = 0; i < indexList.size(); i++) {
-		indexList.push_back(indices[i]);
-	}*/
 
 	
 	Mesh* mesh = new Mesh();
@@ -102,6 +70,7 @@ Mesh* MeshManager::createTriangle() {
 	return mesh;
 }
 
+//??????
 Mesh* MeshManager::createCircle(float radius, int pointCount) {
 	if (!m_VaoManager->GetVAO("circle"))
 	{
@@ -133,6 +102,6 @@ Mesh* MeshManager::createCircle(float radius, int pointCount) {
 	}
 	Mesh* mesh = new Mesh();
 	mesh->m_Vao = m_VaoManager->GetVAO("circle");
-	//mesh->m_IndexCount = mesh->m_Vao->GetIndexCount();
+	mesh->m_IndexCount = mesh->m_Vao->GetIndexCount();
 	return mesh;
 }

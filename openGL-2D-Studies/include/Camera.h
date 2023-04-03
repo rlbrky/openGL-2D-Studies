@@ -10,6 +10,7 @@ private:
 	glm::vec3 right;
 	glm::vec3 up;
 	glm::vec3 worldUP;
+	float zoom;
 public:
 	Camera();
 	Camera(glm::vec3 startPos, glm::vec3 startUp);

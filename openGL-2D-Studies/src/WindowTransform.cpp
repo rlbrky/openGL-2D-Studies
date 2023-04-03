@@ -75,8 +75,8 @@ void WindowTransform::Draw()
 		SceneNode* circleNode = new SceneNode();
 		Transform* circleTransform = new Transform();
 		transformList.push_back(circleTransform);
-		sceneNode->SetTransform(circleTransform);
-		sceneNode->AddMesh(&mesh);
+		circleNode->SetTransform(circleTransform);
+		circleNode->AddMesh(&mesh);
 		circleNode->SetName("Circle");
 		sceneNode->AddChild(circleNode);
 	}

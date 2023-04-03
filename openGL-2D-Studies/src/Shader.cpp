@@ -116,6 +116,11 @@ void Shader::SetUniformMatrixTransform(glm::mat3 transform) {
 	glUniformMatrix3fv(uniformMtxTransform, 1, GL_FALSE, glm::value_ptr(transform));
 }
 
+void Shader::SetUniformMtx4(std::string name, glm::mat4 matrix)
+{
+	glUniformMatrix4fv(glGetUniformLocation(shaderID, name.c_str()), 1, GL_FALSE, glm::value_ptr(matrix));
+}
+
 Shader::~Shader() {
 	ClearShader();
 }

@@ -32,25 +32,21 @@ Transform* transform;
 
 unsigned int programID;
 
-/*void CreateShaders() {
-	Shader* shader1 = new Shader();
-	Shader* shader2 = new Shader();
-	shader1->CreateFromFiles(vertexShader, fragmentShader);
-	shader2->CreateFromFiles(gridVertexLocation, gridFragmentLocation);
-	shaderList.push_back(shader1);
-	shaderList.push_back(shader2);
-}*/
+void mouse_callback(GLFWwindow* window, double mouseX, double mouseY);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 int main() {
 	setupHandler = new SetupHandler();
 	setupHandler->Build(800, 800);
 	
-	camera.setCameraPosition(glm::vec3(3, 3, 3));
-	
+	glfwSetCursorPosCallback(setupHandler->GetWindowPtr(), mouse_callback);
+	glfwSetScrollCallback(setupHandler->GetWindowPtr(), scroll_callback);
+
 	scene = new Scene(setupHandler->GetWindowPtr());
 	transform = new Transform();
 	MeshManager* manager = scene->getMeshManager();
 
+	
 	scene->GetWindowTransform()->setTransform(transform);
 	//transform->Update();
 	setupHandler->AddRenderFunction(std::bind(&Scene::Draw, scene));
@@ -63,23 +59,22 @@ int main() {
 	return 0;
 }
 
-/*
+void mouse_callback(GLFWwindow* window, double mouseX, double mouseY)
+{
+	//if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+		glfwGetCursorPos(window, &mouseX, &mouseY);
+		std::cout << "Cursor Position at (" << mouseX << " : " << mouseY << std::endl;
+	
 
-		//SHADER A UNIFORM TRANSFORM EKLENMELÝ BUNUN ÝÇÝN.
-		//glm::mat3 Translate = glm::translate(glm::mat3(1.0f),vecMove);
-		//Transform = Translate * Rotate;
-		//line.setTransform(Transform);
-		//glDrawArrays(GL_LINES, 0, line.GetGridIntexCount());
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//if (glfwRawMouseMotionSupported())
+	//    glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE); //Can make it false for optimization after you are done maybe ?
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+}
 
-		scene->Draw();
-
-
-		/*shaderList[0]->SetUniformPositionSetter(glm::vec3(0.5f, 0.3f, 0.0f));
-		shaderList[0]->SetUniformColor(glm::vec4(0.5f, 0.5f, 0.0f, 1.0f));
-		meshList[1]->Draw();
-
-		shaderList[0]->SetUniformPositionSetter(glm::vec3(0.7f, 0.5f, 0.0f));
-		shaderList[0]->SetUniformColor(glm::vec4(1.0f, 0.5f, 0.3f, 1.0f));
-		meshList[2]->DrawArray();
-		
-*/
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	/*camera.setCameraPosition(glm::vec3(0.0f, 0.0f, yoffset));*/
+	float scrollAmount = 0.125f;
+	//SET CAMERA
+}

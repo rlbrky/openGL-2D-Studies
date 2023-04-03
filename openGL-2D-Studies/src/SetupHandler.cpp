@@ -27,7 +27,7 @@ bool SetupHandler::Build(int width, int height)
 
 	glfwMakeContextCurrent(m_Window);
 
-	//GLAD I AÇAMADI
+	//Checking if GLAD is working correctly.
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		std::cout << "Failed to initialize OpenGL context" << std::endl;
 		return -1;
