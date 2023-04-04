@@ -18,6 +18,7 @@ public:
 	void Draw();
 	void BindShader();
 	void setTransform(Transform* transform);
+	void SetSceneNodeScale(float zoom);
 private:
 	Scene* m_scene;
 	Shader* shader;

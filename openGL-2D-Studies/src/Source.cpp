@@ -8,7 +8,6 @@
 #include <GLFW/glfw3.h>
 
 #include "Grid.h"
-#include "Camera.h"
 #include "MeshManager.h"
 #include "Mesh.h"
 #include "Scene.h"
@@ -30,9 +29,10 @@ glm::vec2 vecMove;
 
 Scene* scene;
 
-Camera* camera;
-
 Transform* transform;
+
+WindowTransform* tempTransform;
+float zoom;
 
 unsigned int programID;
 
@@ -42,19 +42,19 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 int main() {
 	setupHandler = new SetupHandler();
 	setupHandler->Build(WIDTH, HEIGHT);
+
+	glfwSetCursorPosCallback(setupHandler->GetWindowPtr(), mouse_callback);
 	
-	//glfwSetCursorPosCallback(setupHandler->GetWindowPtr(), mouse_callback);
+	//Mouse scroll callback for zoom property.
 	glfwSetScrollCallback(setupHandler->GetWindowPtr(), scroll_callback);
 
 	scene = new Scene(setupHandler->GetWindowPtr());
 	transform = new Transform();
 	MeshManager* manager = scene->getMeshManager();
 
-	//SceneNode'u kullanarak sahneye zoom yapmak ?
-	// sahenin transformu ile oyna
-	//scene->GetWindowTransform()->setTransform(transform);
+	tempTransform = scene->GetWindowTransform();
 
-	//camera = scene->GetWindowTransform()->GetCamera();
+	scene->GetWindowTransform()->setTransform(transform);
 
 	setupHandler->AddRenderFunction(std::bind(&Scene::Draw, scene));
 
@@ -82,5 +82,15 @@ void mouse_callback(GLFWwindow* window, double mouseX, double mouseY)
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	float scrollAmount = 0.125f;
-	//camera->SetZoom(scrollAmount);
+	if(yoffset == 1 && zoom < 1)
+		zoom += scrollAmount;
+	if (yoffset == -1 && zoom > -1)
+		zoom -= scrollAmount;
+
+	if (zoom > 1.0f)
+		zoom = 1.0f;
+	if (zoom < -1.0f)
+		zoom = -1.0f;
+
+	tempTransform->SetSceneNodeScale(zoom);
 }

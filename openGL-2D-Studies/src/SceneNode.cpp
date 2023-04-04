@@ -35,7 +35,13 @@ void SceneNode::Draw(Shader* shader)
 	for (auto nextMesh : m_meshes)
 		nextMesh->Draw();
 	for (auto nextNode : m_childs)
+	{
 		nextNode->Draw(shader);
+		//Childs get their scale from their parents.
+		nextNode->GetTransform()->setScale(nextNode->GetParent()->GetTransform()->getScale());
+		//Childs get their rotation from their parents.
+		//nextNode->GetTransform()->setEulerAngles(nextNode->GetParent()->GetTransform()->getEulerAngles());
+	}
 }
 
 void SceneNode::AddChild(SceneNode* child)

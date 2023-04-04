@@ -30,6 +30,11 @@ void WindowTransform::setTransform(Transform* transform)
 	sceneNode->SetTransform(m_Transform);
 }
 
+void WindowTransform::SetSceneNodeScale(float zoom)
+{
+	m_Transform->setScale(glm::vec2(zoom, zoom));
+}
+
 //Gets called every frame
 void WindowTransform::Draw()
 {
@@ -61,7 +66,7 @@ void WindowTransform::Draw()
 		sceneNode->AddChild(squareNode);
 	}
 	if (ImGui::Button("Triangle")) {
-		auto& mesh = *m_scene->getMeshManager()->createTriangle(1.0f);
+		auto& mesh = *m_scene->getMeshManager()->createTriangle(0.5f);
 		SceneNode* triangleNode = new SceneNode();
 		Transform* triangleTransform = new Transform();
 		transformList.push_back(triangleTransform);
