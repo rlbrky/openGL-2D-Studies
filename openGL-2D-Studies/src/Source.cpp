@@ -18,6 +18,9 @@
 
 #include <vector>
 
+#define WIDTH 1024
+#define HEIGHT 1024
+
 SetupHandler* setupHandler;
 Grid* grid;
 
@@ -26,7 +29,8 @@ std::vector<Mesh*> meshList;
 glm::vec2 vecMove;
 
 Scene* scene;
-Camera camera;
+
+Camera* camera;
 
 Transform* transform;
 
@@ -37,18 +41,21 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 int main() {
 	setupHandler = new SetupHandler();
-	setupHandler->Build(800, 800);
+	setupHandler->Build(WIDTH, HEIGHT);
 	
-	glfwSetCursorPosCallback(setupHandler->GetWindowPtr(), mouse_callback);
+	//glfwSetCursorPosCallback(setupHandler->GetWindowPtr(), mouse_callback);
 	glfwSetScrollCallback(setupHandler->GetWindowPtr(), scroll_callback);
 
 	scene = new Scene(setupHandler->GetWindowPtr());
 	transform = new Transform();
 	MeshManager* manager = scene->getMeshManager();
 
-	
-	scene->GetWindowTransform()->setTransform(transform);
-	//transform->Update();
+	//SceneNode'u kullanarak sahneye zoom yapmak ?
+	// sahenin transformu ile oyna
+	//scene->GetWindowTransform()->setTransform(transform);
+
+	//camera = scene->GetWindowTransform()->GetCamera();
+
 	setupHandler->AddRenderFunction(std::bind(&Scene::Draw, scene));
 
 	
@@ -74,7 +81,6 @@ void mouse_callback(GLFWwindow* window, double mouseX, double mouseY)
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-	/*camera.setCameraPosition(glm::vec3(0.0f, 0.0f, yoffset));*/
 	float scrollAmount = 0.125f;
-	//SET CAMERA
+	//camera->SetZoom(scrollAmount);
 }

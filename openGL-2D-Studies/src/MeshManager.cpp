@@ -4,6 +4,7 @@
 #include "Mesh.h"
 #include "VAOManager.h"
 #include <glm/trigonometric.hpp>
+#include <Transform.h>
 
 
 
@@ -11,11 +12,10 @@ MeshManager::MeshManager(VAOManager* vaoManager) {
 	m_VaoManager = vaoManager;
 }
 
-Mesh* MeshManager::createSquare() {
+Mesh* MeshManager::createSquare(float length) {
 	
 	if (!m_VaoManager->GetVAO("square"))
 	{
-		float length = 1.0f;
 		VertexTypeList vertexList = {
 		-length / 2, -length / 2, 1.0f, //left bottom point 0
 		length / 2, -length / 2, 1.0f, // right bottom point 1 
@@ -40,12 +40,10 @@ Mesh* MeshManager::createSquare() {
 	return mesh;
 }
 
-Mesh* MeshManager::createTriangle() {
+Mesh* MeshManager::createTriangle(float length) {
 
 	if (!m_VaoManager->GetVAO("triangle"))
 	{
-		float length = 1.0f;
-
 		VertexTypeList vertices = {
 			-length / 2, -length / 2, 1.0f, //left bottom point 0
 			length / 2, -length / 2, 1.0f, // right bottom point 1 

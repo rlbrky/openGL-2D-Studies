@@ -11,7 +11,7 @@ private:
 	VAOManager* m_VaoManager;
 public:
 	MeshManager(VAOManager* vaoManager);
-	Mesh* createSquare();
-	Mesh* createTriangle();
+	Mesh* createSquare(float length);
+	Mesh* createTriangle(float length);
 	Mesh* createCircle(float radius, int pointCount);
 };

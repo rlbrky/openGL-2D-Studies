@@ -27,6 +27,7 @@ void WindowTransform::BindShader() {
 void WindowTransform::setTransform(Transform* transform)
 {
 	m_Transform = transform;
+	sceneNode->SetTransform(m_Transform);
 }
 
 //Gets called every frame
@@ -50,7 +51,7 @@ void WindowTransform::Draw()
 
 	//TO DO: Every object should have their own color manipulation. Every object should move on their own.
 	if (ImGui::Button("Square")) {
-		auto& mesh = *m_scene->getMeshManager()->createSquare();
+		auto& mesh = *m_scene->getMeshManager()->createSquare(0.5f);
 		SceneNode* squareNode = new SceneNode();
 		Transform* squareTransform = new Transform();
 		transformList.push_back(squareTransform);
@@ -60,7 +61,7 @@ void WindowTransform::Draw()
 		sceneNode->AddChild(squareNode);
 	}
 	if (ImGui::Button("Triangle")) {
-		auto& mesh = *m_scene->getMeshManager()->createTriangle();
+		auto& mesh = *m_scene->getMeshManager()->createTriangle(1.0f);
 		SceneNode* triangleNode = new SceneNode();
 		Transform* triangleTransform = new Transform();
 		transformList.push_back(triangleTransform);

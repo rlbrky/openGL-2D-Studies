@@ -13,7 +13,7 @@ class Shader {
 private:
 	unsigned int shaderID;
 
-	unsigned int uniformColor, uniformMtxTransform;
+	unsigned int uniformColor, uniformMtxTransform, uniformModel, uniformView, uniformProj;
 
 	void CompileShader(const char* vertexCode, const char* fragmentCode);
 	void AddShader(unsigned int program, const char* shaderCode, GLenum shaderType);
