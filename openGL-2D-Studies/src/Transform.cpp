@@ -1,6 +1,7 @@
 #include "Transform.h"
 #include <glm/gtx/matrix_transform_2d.hpp>
 #include <iostream>
+
 Transform::Transform() {
 	m_position = glm::vec2(0.0f, 0.0f);
 	m_scale = glm::vec2(1.0f, 1.0f);

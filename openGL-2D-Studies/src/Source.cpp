@@ -29,8 +29,6 @@ glm::vec2 vecMove;
 
 Scene* scene;
 
-Transform* transform;
-
 WindowTransform* tempTransform;
 float zoom;
 
@@ -43,22 +41,17 @@ int main() {
 	setupHandler = new SetupHandler();
 	setupHandler->Build(WIDTH, HEIGHT);
 
-	glfwSetCursorPosCallback(setupHandler->GetWindowPtr(), mouse_callback);
+	//glfwSetCursorPosCallback(setupHandler->GetWindowPtr(), mouse_callback);
 	
 	//Mouse scroll callback for zoom property.
 	glfwSetScrollCallback(setupHandler->GetWindowPtr(), scroll_callback);
 
 	scene = new Scene(setupHandler->GetWindowPtr());
-	transform = new Transform();
 	MeshManager* manager = scene->getMeshManager();
 
 	tempTransform = scene->GetWindowTransform();
 
-	scene->GetWindowTransform()->setTransform(transform);
-
 	setupHandler->AddRenderFunction(std::bind(&Scene::Draw, scene));
-
-	
 
 	setupHandler->BeginRenderLoop();
 		

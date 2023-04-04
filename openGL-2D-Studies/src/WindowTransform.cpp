@@ -24,15 +24,9 @@ void WindowTransform::BindShader() {
 	shader->CreateFromFiles(vertexShader, fragmentShader);
 }
 
-void WindowTransform::setTransform(Transform* transform)
-{
-	m_Transform = transform;
-	sceneNode->SetTransform(m_Transform);
-}
-
 void WindowTransform::SetSceneNodeScale(float zoom)
 {
-	m_Transform->setScale(glm::vec2(zoom, zoom));
+	sceneNode->GetTransform()->setScale(glm::vec2(zoom, zoom));
 }
 
 //Gets called every frame
@@ -58,30 +52,25 @@ void WindowTransform::Draw()
 	if (ImGui::Button("Square")) {
 		auto& mesh = *m_scene->getMeshManager()->createSquare(0.5f);
 		SceneNode* squareNode = new SceneNode();
-		Transform* squareTransform = new Transform();
-		transformList.push_back(squareTransform);
-		squareNode->SetTransform(squareTransform);
+		transformList.push_back(squareNode->GetTransform());
 		squareNode->AddMesh(&mesh);
 		squareNode->SetName("Square"); //TO DO: Unique names exp: Square 1-2-3...
 		sceneNode->AddChild(squareNode);
 	}
+
 	if (ImGui::Button("Triangle")) {
 		auto& mesh = *m_scene->getMeshManager()->createTriangle(0.5f);
 		SceneNode* triangleNode = new SceneNode();
-		Transform* triangleTransform = new Transform();
-		transformList.push_back(triangleTransform);
-		triangleNode->SetTransform(triangleTransform);
+		transformList.push_back(triangleNode->GetTransform());
 		triangleNode->AddMesh(&mesh);
 		triangleNode->SetName("Triangle");
 		sceneNode->AddChild(triangleNode);
 	}
-	//Çalýþmýyor ?
+	
 	if (ImGui::Button("Circle")) {
-		auto& mesh = *m_scene->getMeshManager()->createCircle(0.5f, 12);
+		auto& mesh = *m_scene->getMeshManager()->createCircle(0.3f, 36);
 		SceneNode* circleNode = new SceneNode();
-		Transform* circleTransform = new Transform();
-		transformList.push_back(circleTransform);
-		circleNode->SetTransform(circleTransform);
+		transformList.push_back(circleNode->GetTransform());
 		circleNode->AddMesh(&mesh);
 		circleNode->SetName("Circle");
 		sceneNode->AddChild(circleNode);
@@ -97,9 +86,6 @@ void WindowTransform::Draw()
 		ImGui::SliderFloat("Rotation", &iter->getEulerAngles().x, 0, 360);
 		ImGui::SliderFloat2("Transition", &iter->getPosition().x, -1, 1);
 		ImGui::PopID();
-
-		iter->setPosition(iter->getPosition());
-		iter->setEulerAngles(iter->getEulerAngles());
 	}
 
 	//SLIDERFLOAT--IMGUI -- vec3 olarak deðerleri shadera at.
