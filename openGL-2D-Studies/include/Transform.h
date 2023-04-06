@@ -1,6 +1,8 @@
 #pragma once
-#include <glm/mat4x4.hpp>
+
+#include <glm/mat3x3.hpp>
 #include <glm/vec3.hpp>
+
 class Transform
 {
 public:

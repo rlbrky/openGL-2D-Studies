@@ -9,6 +9,10 @@ SceneNode::SceneNode(SceneNode* parent)
 
 void SceneNode::Build(MeshManager* MeshManager)
 {
+	for (auto nextNode : m_childs)
+	{
+		nextNode->Build(MeshManager);
+	}
 }
 
 void SceneNode::Start()
@@ -27,6 +31,7 @@ void SceneNode::Update()
 void SceneNode::Draw(Shader* shader)
 {
 	shader->UseShader();
+	//TO DO: Every object should have their own color.
 	shader->SetUniformColor(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
 
 	glm::mat3 mtxTransform = m_transform->getMatrix();

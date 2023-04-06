@@ -63,9 +63,6 @@ void Shader::CompileShader(const char* vertexCode, const char* fragmentCode) {
 
 	uniformMtxTransform = glGetUniformLocation(shaderID, "uMtxTransform");
 	uniformColor = glGetUniformLocation(shaderID, "uColor");
-	/*uniformModel = glGetUniformLocation(shaderID, "uModel");
-	uniformView = glGetUniformLocation(shaderID, "uView");
-	uniformProj = glGetUniformLocation(shaderID, "uProjection");*/
 }
 
 void Shader::CreateFromFiles(const char* vertexLoc, const char* fragmentLoc) {

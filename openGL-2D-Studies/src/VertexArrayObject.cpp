@@ -14,9 +14,9 @@ void VertexArrayObject::Build(const VertexTypeList& vertices, const IndexList& i
 
 	glBindVertexArray(m_VaoID);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VboID);
-	//Giving the class size multiplied by list size ?
+	//Giving the class size multiplied by list size
 	glBufferData(GL_ARRAY_BUFFER, sizeof(VertexTypes) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
-	//BURADAKÝ 3'e dikkat etmeli.
+	//Be Careful about the 3 here
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	
 	glEnableVertexAttribArray(0);
@@ -33,24 +33,6 @@ void VertexArrayObject::Build(const VertexTypeList& vertices, const IndexList& i
 	m_AttribList.push_back(1);
 
 	m_IndexCount = indices.size();
-}
-
-void VertexArrayObject::Build(const vec3List& vertices) {
-	glGenVertexArrays(1, &m_VaoID);
-	glGenBuffers(1, &m_VboID);
-
-	glBindVertexArray(m_VaoID);
-	glBindBuffer(GL_ARRAY_BUFFER, m_VboID);
-	//Giving the class size multiplied by list size ?
-	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
-	//BURADAKÝ 3'e dikkat etmeli.
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
-
-	glEnableVertexAttribArray(0);
-
-	m_AttribList.push_back(0);
-
-	m_VertexCount = vertices.size();
 }
 
 void VertexArrayObject::Activate() {

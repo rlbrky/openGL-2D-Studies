@@ -31,6 +31,7 @@ void Scene::Draw()
 	glBindVertexArray(gridVAO);
 	grid.gridShader->UseShader();
 	glDrawElements(GL_LINES, grid.GetGridIntexCount(), GL_UNSIGNED_INT, 0);
+
 	m_WindowTransform->Draw();
 }
 

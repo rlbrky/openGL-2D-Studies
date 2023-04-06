@@ -7,7 +7,6 @@
 #include "imgui_impl_opengl3.h"
 #include "Scene.h"
 #include "MeshManager.h"
-#include "Transform.h"
 #include "SceneNode.h"
 
 WindowTransform::WindowTransform(Scene* scene)
@@ -15,8 +14,8 @@ WindowTransform::WindowTransform(Scene* scene)
 	m_scene = scene;
 	shader = new Shader();
 	BindShader();
-	sceneNode = new SceneNode();
-	sceneNode->SetName("Sahne");
+	sceneNode = new SceneNode(); //If you put this into Scene class then you may require a new function as well as its normal function to the scene as well
+	sceneNode->SetName("Scene");
 }
 
 //Can add parameters for different shaders.
@@ -34,14 +33,15 @@ void WindowTransform::Draw()
 {
 	sceneNode->Draw(shader);
 
+	//Initialize ImGui
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
-	ImGui::Begin("Hierarchy");
+	ImGui::Begin("Hierarchy"); //hierarchy panel
 	ImGui::Text(sceneNode->GetName().c_str());
 	for (int i = 0; i < sceneNode->GetChildCount(); i++)
-	{
+	{ //Write sceneNode's childs to panel
 		ImGui::Text(sceneNode->GetChild(i)->GetName().c_str());
 	}
 	ImGui::End();
@@ -52,7 +52,6 @@ void WindowTransform::Draw()
 	if (ImGui::Button("Square")) {
 		auto& mesh = *m_scene->getMeshManager()->createSquare(0.5f);
 		SceneNode* squareNode = new SceneNode();
-		transformList.push_back(squareNode->GetTransform());
 		squareNode->AddMesh(&mesh);
 		squareNode->SetName("Square"); //TO DO: Unique names exp: Square 1-2-3...
 		sceneNode->AddChild(squareNode);
@@ -61,16 +60,14 @@ void WindowTransform::Draw()
 	if (ImGui::Button("Triangle")) {
 		auto& mesh = *m_scene->getMeshManager()->createTriangle(0.5f);
 		SceneNode* triangleNode = new SceneNode();
-		transformList.push_back(triangleNode->GetTransform());
 		triangleNode->AddMesh(&mesh);
 		triangleNode->SetName("Triangle");
 		sceneNode->AddChild(triangleNode);
 	}
 	
 	if (ImGui::Button("Circle")) {
-		auto& mesh = *m_scene->getMeshManager()->createCircle(0.3f, 36);
+		auto& mesh = *m_scene->getMeshManager()->createCircle(0.3f, 12);
 		SceneNode* circleNode = new SceneNode();
-		transformList.push_back(circleNode->GetTransform());
 		circleNode->AddMesh(&mesh);
 		circleNode->SetName("Circle");
 		sceneNode->AddChild(circleNode);
@@ -78,13 +75,12 @@ void WindowTransform::Draw()
 
 
 	//Iterate through transformList and create ImGui sliders to manipulate rotation and transition of the object.
-	for (int i = 0; i < transformList.size(); i++)
+	for (int i = 0; i < sceneNode->GetChildCount(); i++)
 	{
-		auto& iter = transformList[i];
 		//To get unique ID's for the same name in ImGui we use Push/Pop ID functions.
 		ImGui::PushID(i);
-		ImGui::SliderFloat("Rotation", &iter->getEulerAngles().x, 0, 360);
-		ImGui::SliderFloat2("Transition", &iter->getPosition().x, -1, 1);
+		ImGui::SliderFloat("Rotation", &sceneNode->GetChild(i)->GetTransform()->getEulerAngles().x, 0, 360);
+		ImGui::SliderFloat2("Transition", &sceneNode->GetChild(i)->GetTransform()->getPosition().x, -1, 1);
 		ImGui::PopID();
 	}
 

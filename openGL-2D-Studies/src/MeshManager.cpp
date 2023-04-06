@@ -4,7 +4,6 @@
 #include "Mesh.h"
 #include "VAOManager.h"
 #include <glm/trigonometric.hpp>
-#include <Transform.h>
 
 
 
@@ -72,11 +71,13 @@ Mesh* MeshManager::createCircle(float radius, int pointCount) {
 	if (!m_VaoManager->GetVAO("circle"))
 	{
 		IndexList indexList;
+		VertexTypeList vertices;
 
-		std::vector<float> tempVertices;
+		//Angle between triangles.
 		float angle = 360.0f / pointCount;
 		int triangleCount = pointCount - 2;
 
+		//Calculating triangle vertices with our angle.
 		for (int i = 0; i < pointCount; i++) {
 			float newAngle = angle * i;
 
@@ -84,9 +85,9 @@ Mesh* MeshManager::createCircle(float radius, int pointCount) {
 			float y = radius * sin(glm::radians(newAngle));
 			float z = 0.0f;
 
-			tempVertices.push_back(x);
-			tempVertices.push_back(y);
-			tempVertices.push_back(z);
+			vertices.push_back(x);
+			vertices.push_back(y);
+			vertices.push_back(z);
 		}
 
 		for (int i = 0; i < triangleCount; i++) {
@@ -96,7 +97,7 @@ Mesh* MeshManager::createCircle(float radius, int pointCount) {
 		}
 
 		VertexArrayObject* vao = new VertexArrayObject();
-		vao->Build(tempVertices, indexList);
+		vao->Build(vertices, indexList);
 		m_VaoManager->AddNewObject("circle", vao);
 	}
 

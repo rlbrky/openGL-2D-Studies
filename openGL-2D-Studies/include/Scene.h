@@ -2,11 +2,11 @@
 #include <glad.h>
 #include <GLFW/glfw3.h>
 #include "Grid.h"
+
 class MeshManager;
 class VAOManager;
 class WindowTransform;
-//BUNA DÝKKAT
-class GLFWwindow;
+class GLFWwindow; //CAUTION
 class Grid;
 
 class Scene

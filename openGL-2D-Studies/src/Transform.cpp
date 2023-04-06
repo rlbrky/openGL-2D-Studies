@@ -41,11 +41,12 @@ void Transform::Update()
 	glm::mat3 mtxTranslate = glm::translate(glm::mat3(1), m_position);
 	glm::mat3 mtxScale = glm::scale(glm::mat3(1), m_scale);
 
-	//zyx sýrasýyla hesaplayacaðýz
+	//We will calculate in zyx order.
 
 	glm::mat3 mtxRot = glm::rotate(glm::mat3(1),
 																glm::radians(m_eulerAngles.x));
-	//TRS - Translate - Rotate - Scale sýrasýna göre çarpma iþlemlerini yapýyoruz.
+
+	//Calculate transform in TRS - Translate - Rotate - Scale order.
 
 	m_mtxTransform = mtxTranslate* mtxRot* mtxScale;
 }

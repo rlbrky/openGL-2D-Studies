@@ -14,8 +14,6 @@ public:
 	~VertexArrayObject();
 
 	void Build(const VertexTypeList& vertices, const IndexList& indexList);
-	void Build(const vec3List& vertices);
-	//void Build(const VertexTypeList& vertices);
 
 	int GetIndexCount();
 	int GetVertexCount();
