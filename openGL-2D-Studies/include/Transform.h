@@ -12,9 +12,10 @@ public:
 	glm::vec2& getPosition();
 	glm::vec2& getScale();
 
-	void setPosition(const glm::vec2& pos);
-	void setScale(const glm::vec2& scale);
-	void setEulerAngles(const glm::vec2& angles);
+	void SetParentMatrix(glm::mat3 parent);
+	void SetPosition(const glm::vec2& pos);
+	void SetScale(const glm::vec2& scale);
+	void SetEulerAngles(const glm::vec2& angles);
 	void Update();
 protected:
 	glm::vec2 m_position;

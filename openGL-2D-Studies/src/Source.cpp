@@ -51,6 +51,7 @@ int main() {
 
 	tempTransform = scene->GetWindowTransform();
 
+	setupHandler->AddRenderFunction(std::bind(&Scene::Update, scene));
 	setupHandler->AddRenderFunction(std::bind(&Scene::Draw, scene));
 
 	setupHandler->BeginRenderLoop();

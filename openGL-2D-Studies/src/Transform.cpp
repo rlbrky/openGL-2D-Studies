@@ -22,15 +22,20 @@ glm::vec2& Transform::getScale()
 	return m_scale;
 }
 
-void Transform::setEulerAngles(const glm::vec2& angles) {
+void Transform::SetParentMatrix(glm::mat3 parent)
+{
+	
+}
+
+void Transform::SetEulerAngles(const glm::vec2& angles) {
 	m_eulerAngles = angles;
 	Update();
 }
-void Transform::setPosition(const glm::vec2& pos) {
+void Transform::SetPosition(const glm::vec2& pos) {
 	m_position = pos;
 	Update();
 }
-void Transform::setScale(const glm::vec2& scale)
+void Transform::SetScale(const glm::vec2& scale)
 {
 	m_scale = scale;
 	Update();

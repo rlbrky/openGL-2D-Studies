@@ -158,6 +158,7 @@
     <ClCompile Include="src\Transform.cpp" />
     <ClCompile Include="src\VAOManager.cpp" />
     <ClCompile Include="src\VertexArrayObject.cpp" />
+    <ClCompile Include="src\WindowScene.cpp" />
     <ClCompile Include="src\WindowTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +182,7 @@
     <ClInclude Include="include\VAOManager.h" />
     <ClInclude Include="include\VertexArrayObject.h" />
     <ClInclude Include="include\VertexTypes.h" />
+    <ClInclude Include="include\WindowScene.h" />
     <ClInclude Include="include\WindowTransform.h" />
   </ItemGroup>
   <ItemGroup>

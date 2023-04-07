@@ -3,25 +3,20 @@
 #include <glm/vec3.hpp>
 #include <vector>
 
-//BUNLARA DÝKKAT
-class Shader;
 class Mesh;
 class MeshManager;
-class Scene;
 class SceneNode;
 
 class WindowTransform
 {
 public:
-	WindowTransform(Scene* scene);
+	WindowTransform(MeshManager* meshManager, SceneNode* root);
 	void Draw();
-	void BindShader();
 	void SetSceneNodeScale(float zoom);
+	void SetActiveNode(SceneNode* node);
 private:
-	Scene* m_scene;
-	Shader* shader;
-	SceneNode* sceneNode;
-	const char* vertexShader = "Shaders/vertexShader.vert";
-	const char* fragmentShader = "Shaders/fragmentShader.frag";
-	glm::vec3* m_Transition;
+	MeshManager*				m_MeshManager;
+	SceneNode*						m_Root;
+	SceneNode*						m_ActiveNode;
+	//glm::vec3* m_Transition;
 };
