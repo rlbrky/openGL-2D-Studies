@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\glad.c" />
+    <ClCompile Include="src\imgui_stdlib.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Grid.cpp" />
     <ClCompile Include="src\imgui.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="include\imgui_impl_opengl3.h" />
     <ClInclude Include="include\imgui_impl_opengl3_loader.h" />
     <ClInclude Include="include\imgui_internal.h" />
+    <ClInclude Include="include\imgui_stdlib.h" />
     <ClInclude Include="include\imstb_rectpack.h" />
     <ClInclude Include="include\imstb_textedit.h" />
     <ClInclude Include="include\imstb_truetype.h" />

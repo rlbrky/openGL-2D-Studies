@@ -7,6 +7,7 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include "imgui_stdlib.h"
 
 WindowTransform::WindowTransform(MeshManager* meshManager, SceneNode* root)
 {
@@ -59,10 +60,12 @@ void WindowTransform::Draw()
 	}
 	ImGui::End();
 	
-
 	ImGui::Begin("Properties");
-	ImGui::Text(m_ActiveNode->GetName().c_str()); //Add name change
-	//ImGui::InputText("Name", ); -- Look up wiki
+	//Change Name of Object
+	std::string	 name = m_ActiveNode->GetName();
+	ImGui::InputText("Name", &name);
+	m_ActiveNode->SetName(name);
+	
 	ImGui::Separator();
 	//New system that lets you control 1 item at a time.(That item being the selected one.)
 	ImGui::SliderFloat("Rotation", &m_ActiveNode->GetTransform()->getEulerAngles().x, 0, 360);

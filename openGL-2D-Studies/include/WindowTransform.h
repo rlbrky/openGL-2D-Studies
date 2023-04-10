@@ -2,6 +2,7 @@
 
 #include <glm/vec3.hpp>
 #include <vector>
+#include <string>
 
 class Mesh;
 class MeshManager;
