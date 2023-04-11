@@ -34,14 +34,14 @@ float zoom;
 
 unsigned int programID;
 
-void mouse_callback(GLFWwindow* window, double mouseX, double mouseY);
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 int main() {
 	setupHandler = new SetupHandler();
 	setupHandler->Build(WIDTH, HEIGHT);
 
-	//glfwSetCursorPosCallback(setupHandler->GetWindowPtr(), mouse_callback);
+	glfwSetMouseButtonCallback(setupHandler->GetWindowPtr(), mouse_button_callback);
 	
 	//Mouse scroll callback for zoom property.
 	glfwSetScrollCallback(setupHandler->GetWindowPtr(), scroll_callback);
@@ -60,13 +60,22 @@ int main() {
 	return 0;
 }
 
-void mouse_callback(GLFWwindow* window, double mouseX, double mouseY)
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
-	//if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+	{
+		double mouseX, mouseY;
 		glfwGetCursorPos(window, &mouseX, &mouseY);
-		std::cout << "Cursor Position at (" << mouseX << " : " << mouseY << std::endl;
-	
+		std::cout << "P_Cursor Position at (" << mouseX << " : " << mouseY << std::endl;
 
+		
+	}
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
+	{
+		double mouseX, mouseY;
+		glfwGetCursorPos(window, &mouseX, &mouseY);
+		std::cout << "R_Cursor Position at (" << mouseX << " : " << mouseY << std::endl;
+	}
 	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	//if (glfwRawMouseMotionSupported())
 	//    glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE); //Can make it false for optimization after you are done maybe ?
