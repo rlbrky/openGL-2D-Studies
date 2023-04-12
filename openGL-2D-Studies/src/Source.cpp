@@ -67,7 +67,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 		double mouseX, mouseY;
 		glfwGetCursorPos(window, &mouseX, &mouseY);
 		std::cout << "P_Cursor Position at (" << mouseX << " : " << mouseY << std::endl;
-
+		//Object position
 		
 	}
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
@@ -75,6 +75,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 		double mouseX, mouseY;
 		glfwGetCursorPos(window, &mouseX, &mouseY);
 		std::cout << "R_Cursor Position at (" << mouseX << " : " << mouseY << std::endl;
+		//Change object position
 	}
 	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	//if (glfwRawMouseMotionSupported())

@@ -70,6 +70,7 @@ void Scene::DrawGui()
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
+	//Creating Scene
 	m_WindowTransform->Draw();
 	m_WindowScene->Draw();
 	SceneNode* activeNode = m_WindowScene->GetActiveNode();
