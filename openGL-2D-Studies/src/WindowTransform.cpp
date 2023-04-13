@@ -60,7 +60,7 @@ void WindowTransform::Draw()
 	}
 	ImGui::End();
 	
-	ImGui::Begin("Properties");
+	ImGui::Begin("Properties"); //PROPERTIES PANEL
 	//Change Name of Object
 	std::string	 name = m_ActiveNode->GetName();
 	ImGui::InputText("Name", &name);
