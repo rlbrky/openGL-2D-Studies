@@ -26,6 +26,7 @@ public:
 
 	std::string GetName();
 	SceneNode* GetChild(int index);
+	SceneNode* GetChildByName(std::string name);
 	int GetChildCount();
 	SceneNode* GetParent();
 	Transform* GetTransform();

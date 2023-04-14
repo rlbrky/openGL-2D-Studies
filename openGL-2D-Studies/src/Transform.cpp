@@ -24,7 +24,7 @@ glm::vec2& Transform::getScale()
 
 void Transform::SetParentMatrix(glm::mat3 parent)
 {
-	
+	m_mtxTransform = m_mtxTransform * parent;
 }
 
 void Transform::SetEulerAngles(const glm::vec2& angles) {

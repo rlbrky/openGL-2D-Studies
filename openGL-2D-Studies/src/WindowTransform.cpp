@@ -13,9 +13,12 @@
 
 WindowTransform::WindowTransform(MeshManager* meshManager, SceneNode* root)
 {
+	triangleCount = 0; circleCount = 0; squareCount = 0;
+
 	m_MeshManager = meshManager;
 	m_Root = root;
 	m_ActiveNode = m_Root;
+	childToBeName = "";
 }
 
 void WindowTransform::SetSceneNodeScale(float zoom)
@@ -31,34 +34,46 @@ void WindowTransform::SetActiveNode(SceneNode* node)
 //Gets called every frame
 void WindowTransform::Draw()
 {
-	ImGui::Begin("Object Creator");
-	//TO DO: Every object should have their own color manipulation. Every object should move on their own.
-	//SLIDERFLOAT--IMGUI -- vec3 olarak deðerleri shadera at.
-	if (ImGui::Button("Square")) {
-		auto mesh = m_MeshManager->createSquare(0.5);
-		SceneNode* squareNode = new SceneNode();
-		squareNode->AddMesh(mesh);
-		squareNode->SetName("Square"); //TO DO: Unique names exp: Square 1-2-3...
-		m_Root->AddChild(squareNode);
-		SetActiveNode(squareNode);
-	}
+	ImGui::Begin("Menu");
+	if(ImGui::BeginMenu("Object Creator"))
+	{
+		//TO DO: Every object should have their own color manipulation. Every object should move on their own.
+		if (ImGui::MenuItem("Square"))
+		{
+			squareCount++;
+			std::string name = "Square " + std::to_string(squareCount);
+			auto mesh = m_MeshManager->createSquare(0.5);
+			SceneNode* squareNode = new SceneNode();
+			squareNode->AddMesh(mesh);
+			squareNode->SetName(name);
+			m_Root->AddChild(squareNode);
+			SetActiveNode(squareNode);
+		}
 
-	if (ImGui::Button("Triangle")) {
-		auto mesh = m_MeshManager->createTriangle(0.5f);
-		SceneNode* triangleNode = new SceneNode();
-		triangleNode->AddMesh(mesh);
-		triangleNode->SetName("Triangle");
-		m_Root->AddChild(triangleNode);
-		SetActiveNode(triangleNode);
-	}
-	
-	if (ImGui::Button("Circle")) {
-		auto mesh = m_MeshManager->createCircle(0.3f, 12);
-		SceneNode* circleNode = new SceneNode();
-		circleNode->AddMesh(mesh);
-		circleNode->SetName("Circle");
-		m_Root->AddChild(circleNode);
-		SetActiveNode(circleNode);
+		if (ImGui::MenuItem("Triangle"))
+		{
+			triangleCount++;
+			std::string name = "Triangle " + std::to_string(triangleCount);
+			auto mesh = m_MeshManager->createTriangle(0.5f);
+			SceneNode* triangleNode = new SceneNode();
+			triangleNode->AddMesh(mesh);
+			triangleNode->SetName(name);
+			m_Root->AddChild(triangleNode);
+			SetActiveNode(triangleNode);
+		}
+
+		if (ImGui::MenuItem("Circle"))
+		{
+			circleCount++;
+			std::string name = "Circle " + std::to_string(circleCount);
+			auto mesh = m_MeshManager->createCircle(0.3f, 12);
+			SceneNode* circleNode = new SceneNode();
+			circleNode->AddMesh(mesh);
+			circleNode->SetName(name);
+			m_Root->AddChild(circleNode);
+			SetActiveNode(circleNode);
+		}
+		ImGui::EndMenu();
 	}
 	ImGui::End();
 	
@@ -72,48 +87,34 @@ void WindowTransform::Draw()
 	//New system that lets you control 1 item at a time.(That item being the selected one.)
 	ImGui::SliderFloat("Rotation", &m_ActiveNode->GetTransform()->getEulerAngles().x, 0, 360);
 	ImGui::SliderFloat2("Transition", &m_ActiveNode->GetTransform()->getPosition().x, -1, 1);
-	ImGui::End();
 
-	ImGui::Begin("Hierarchy"); //hierarchy panel
-	DrawTree(m_Root);
-
-	//The moment you grab the object create source
-	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) //No flags set bc every node is both source and targets.
+	ImGui::Separator();
+	ImGui::InputText("Enter Child Name", &childToBeName);
+	if (ImGui::Button("Set Child"))//TO DO: After this Remove First Node?
 	{
-		//Set it to carry nodes - BE CAREFUL - Could lead to mistakes.
-		ImGui::SetDragDropPayload("Organise_Tree", &m_ActiveNode, sizeof(m_ActiveNode), ImGuiCond_Once);
-		ImGui::EndDragDropSource();
-	}//TO DO: FOR SOME REASON ONLY DRAGGING FROM BELOW IS POSSIBLE
-
-	if (ImGui::BeginDragDropTarget())//Drop procedures. TO DO: NEVER ENTERS HERE ATM ?
-	{
-		std::cout << "PAYLOAD ACCEPTED" << std::endl;
-		//if(const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Organise_Tree"))
-		// {
-		// } //NEED FIX
-		//*(SceneNode*)payload->Data
-		ImGui::EndDragDropTarget();
+		m_ActiveNode->AddChild(m_Root->GetChildByName(childToBeName));
+		m_Root->GetChildByName(childToBeName)->SetParent(m_ActiveNode);
+		childToBeName = "";
 	}
 
 	ImGui::End();
+
+	ImGui::Begin("Hierarchy"); //Hierarchy panel
+	DrawTree(m_Root);
+	ImGui::End();
 }
 
-
-//TO DO: FIND A WAY TO FIX ITEM_ACTIVE ISSUE.
 void WindowTransform::DrawTree(SceneNode* node)
 {
 	if (node)
 	{
-		int i = 0;
-		ImGui::PushID(i++); // PLAY WITH THIS TO GET UNIQUE ID'S TO FIX THE ISSUE.
-		unsigned int flags = ImGuiTreeNodeFlags_DefaultOpen;
+		unsigned int flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnDoubleClick;
 		if (node == m_ActiveNode)
 		{
 			flags |= ImGuiTreeNodeFlags_Selected;
 		}
 		if (ImGui::TreeNodeEx(node->GetName().c_str(), flags))
 		{
-			
 			if (ImGui::IsItemActive())
 			{
 				m_ActiveNode = node;
@@ -122,15 +123,37 @@ void WindowTransform::DrawTree(SceneNode* node)
 			{ //Write sceneNode's childs to panel
 				DrawTree(node->GetChild(i));
 			}
-			
 			ImGui::TreePop();
 		}
-		ImGui::PopID();
 	}
 }
 
-/* OLD SYSTEM THAT LETS YOU SEE ALL ITEMS.
 
+//DRAG DROP FAILED CODE
+//Selecting a second node how will that work ?
+//Never managed to enter payload section.
+/*
+	//The moment you grab the object create source
+	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) //No flags set bc every node is both source and targets.
+	{
+		//Set it to carry nodes - BE CAREFUL - Could lead to mistakes.
+		ImGui::SetDragDropPayload("Organise_Tree", &m_ActiveNode, sizeof(&m_ActiveNode));
+		ImGui::EndDragDropSource();
+	}//TO DO: FOR SOME REASON ONLY DRAGGING FROM BELOW IS POSSIBLE
+
+	if (ImGui::BeginDragDropTarget())//Drop procedures.
+	{
+		std::cout << "PAYLOAD ACCEPTED" << std::endl;
+		//if(const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Organise_Tree"))
+		// {
+		// } //NEED FIX
+		//*(SceneNode*)payload->Data
+		ImGui::EndDragDropTarget();
+	}
+*/
+
+//OLD SYSTEM THAT LETS YOU SEE ALL ITEMS.
+/*
 	Iterate through and create ImGui sliders to manipulate rotation and transition of the selected object.
 	for (int i = 0; i < m_ActiveNode->GetChildCount(); i++)
 	{

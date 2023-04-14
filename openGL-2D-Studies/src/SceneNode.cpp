@@ -25,10 +25,7 @@ void SceneNode::Update()
 	m_transform->Update();
 
 	for (auto nextNode : m_childs)
-	{
-		nextNode->GetTransform()->SetParentMatrix(m_transform->getMatrix()); //TO DO
 		nextNode->Update();
-	}
 }
 
 void SceneNode::Draw(Shader* shader)
@@ -46,6 +43,7 @@ void SceneNode::Draw(Shader* shader)
 	{
 		//Childs get their scale from their parents.
 		nextNode->GetTransform()->SetScale(nextNode->GetParent()->GetTransform()->getScale());
+		nextNode->GetTransform()->SetParentMatrix(m_transform->getMatrix());
 		nextNode->Draw(shader);
 		//Childs get their rotation from their parents.
 		//nextNode->GetTransform()->setEulerAngles(nextNode->GetParent()->GetTransform()->getEulerAngles());
@@ -88,6 +86,18 @@ SceneNode* SceneNode::GetChild(int index)
 	if (index < m_childs.size())
 		return m_childs[index];
 
+	return nullptr;
+}
+
+SceneNode* SceneNode::GetChildByName(std::string name)
+{
+	for (auto child : m_childs)
+	{
+		if (child->GetName() == name)
+		{
+			return child;
+		}
+	}
 	return nullptr;
 }
 
