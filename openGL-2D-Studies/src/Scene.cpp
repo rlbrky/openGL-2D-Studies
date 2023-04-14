@@ -72,9 +72,9 @@ void Scene::DrawGui()
 
 	//Creating Scene
 	m_WindowTransform->Draw();
-	m_WindowScene->Draw();
+	/*m_WindowScene->Draw();
 	SceneNode* activeNode = m_WindowScene->GetActiveNode();
-	m_WindowTransform->SetActiveNode(activeNode);
+	m_WindowTransform->SetActiveNode(activeNode);*/
 
 	ImGui::EndFrame();
 	ImGui::Render();

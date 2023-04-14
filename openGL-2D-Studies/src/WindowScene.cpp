@@ -44,20 +44,5 @@ void WindowScene::DrawTree(SceneNode* node)
 			}
 			ImGui::TreePop();
 		}
-
-		if (ImGui::BeginDragDropSource()) //No flags set bc every node is both source and targets.
-		{
-			//Set it to carry nodes - BE CAREFUL - Could lead to mistakes.
-			ImGui::SetDragDropPayload("Organise_Tree", &node, sizeof(node)); //NEED FIX
-			ImGui::EndDragDropSource();
-		}
-		if (ImGui::BeginDragDropTarget())//Drop procedures.
-		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Organise_Tree")) //NEED FIX
-			{
-				m_ActiveNode->AddChild((SceneNode*)payload->Data);
-			}
-		}
-		ImGui::EndDragDropTarget();
 	}
 }

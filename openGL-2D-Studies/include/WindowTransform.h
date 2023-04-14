@@ -19,5 +19,6 @@ private:
 	MeshManager*				m_MeshManager;
 	SceneNode*						m_Root;
 	SceneNode*						m_ActiveNode;
+	void DrawTree(SceneNode* node);
 	//glm::vec3* m_Transition;
 };

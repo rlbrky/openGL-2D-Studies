@@ -41,7 +41,7 @@ int main() {
 	setupHandler = new SetupHandler();
 	setupHandler->Build(WIDTH, HEIGHT);
 
-	glfwSetMouseButtonCallback(setupHandler->GetWindowPtr(), mouse_button_callback);
+	//glfwSetMouseButtonCallback(setupHandler->GetWindowPtr(), mouse_button_callback);
 	
 	//Mouse scroll callback for zoom property.
 	glfwSetScrollCallback(setupHandler->GetWindowPtr(), scroll_callback);

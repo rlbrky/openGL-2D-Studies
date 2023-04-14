@@ -26,7 +26,7 @@ void SceneNode::Update()
 
 	for (auto nextNode : m_childs)
 	{
-		nextNode->GetTransform()->SetParentMatrix(m_transform->getMatrix());
+		nextNode->GetTransform()->SetParentMatrix(m_transform->getMatrix()); //TO DO
 		nextNode->Update();
 	}
 }

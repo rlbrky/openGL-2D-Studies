@@ -9,6 +9,8 @@
 #include "imgui_impl_opengl3.h"
 #include "imgui_stdlib.h"
 
+#include <iostream>
+
 WindowTransform::WindowTransform(MeshManager* meshManager, SceneNode* root)
 {
 	m_MeshManager = meshManager;
@@ -71,8 +73,61 @@ void WindowTransform::Draw()
 	ImGui::SliderFloat("Rotation", &m_ActiveNode->GetTransform()->getEulerAngles().x, 0, 360);
 	ImGui::SliderFloat2("Transition", &m_ActiveNode->GetTransform()->getPosition().x, -1, 1);
 	ImGui::End();
+
+	ImGui::Begin("Hierarchy"); //hierarchy panel
+	DrawTree(m_Root);
+
+	//The moment you grab the object create source
+	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) //No flags set bc every node is both source and targets.
+	{
+		//Set it to carry nodes - BE CAREFUL - Could lead to mistakes.
+		ImGui::SetDragDropPayload("Organise_Tree", &m_ActiveNode, sizeof(m_ActiveNode), ImGuiCond_Once);
+		ImGui::EndDragDropSource();
+	}//TO DO: FOR SOME REASON ONLY DRAGGING FROM BELOW IS POSSIBLE
+
+	if (ImGui::BeginDragDropTarget())//Drop procedures. TO DO: NEVER ENTERS HERE ATM ?
+	{
+		std::cout << "PAYLOAD ACCEPTED" << std::endl;
+		//if(const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Organise_Tree"))
+		// {
+		// } //NEED FIX
+		//*(SceneNode*)payload->Data
+		ImGui::EndDragDropTarget();
+	}
+
+	ImGui::End();
 }
 
+
+//TO DO: FIND A WAY TO FIX ITEM_ACTIVE ISSUE.
+void WindowTransform::DrawTree(SceneNode* node)
+{
+	if (node)
+	{
+		int i = 0;
+		ImGui::PushID(i++); // PLAY WITH THIS TO GET UNIQUE ID'S TO FIX THE ISSUE.
+		unsigned int flags = ImGuiTreeNodeFlags_DefaultOpen;
+		if (node == m_ActiveNode)
+		{
+			flags |= ImGuiTreeNodeFlags_Selected;
+		}
+		if (ImGui::TreeNodeEx(node->GetName().c_str(), flags))
+		{
+			
+			if (ImGui::IsItemActive())
+			{
+				m_ActiveNode = node;
+			}
+			for (int i = 0; i < node->GetChildCount(); i++)
+			{ //Write sceneNode's childs to panel
+				DrawTree(node->GetChild(i));
+			}
+			
+			ImGui::TreePop();
+		}
+		ImGui::PopID();
+	}
+}
 
 /* OLD SYSTEM THAT LETS YOU SEE ALL ITEMS.
 
