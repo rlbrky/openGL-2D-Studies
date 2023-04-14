@@ -27,7 +27,7 @@ void WindowScene::DrawTree(SceneNode* node)
 {
 	if (node)
 	{
-		unsigned int flags = ImGuiTreeNodeFlags_DefaultOpen;
+		unsigned int flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnDoubleClick;
 		if (node == m_ActiveNode)
 		{
 			flags |= ImGuiTreeNodeFlags_Selected;

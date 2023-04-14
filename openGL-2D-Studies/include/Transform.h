@@ -8,19 +8,20 @@ class Transform
 public:
 	Transform();
 	glm::mat3 getMatrix();
-	glm::vec2& getEulerAngles();
+	glm::vec2& getRotation();
 	glm::vec2& getPosition();
 	glm::vec2& getScale();
 
-	void SetParentMatrix(glm::mat3 parent);
+	void SetParentTransform(Transform* parent);
 	void SetPosition(const glm::vec2& pos);
 	void SetScale(const glm::vec2& scale);
-	void SetEulerAngles(const glm::vec2& angles);
+	void SetRotation(const glm::vec2& angles);
 	void Update();
 protected:
-	glm::vec2 m_position;
-	glm::vec2 m_scale;
-	glm::vec2 m_eulerAngles;
-	glm::mat3 m_mtxTransform;
+	glm::vec2				m_position;
+	glm::vec2				m_scale;
+	glm::vec2				m_Rotation;
+	glm::mat3				m_mtxTransform;
+	Transform*			m_Parent;
 };
 

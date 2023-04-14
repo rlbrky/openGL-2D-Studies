@@ -43,7 +43,7 @@ void SceneNode::Draw(Shader* shader)
 	{
 		//Childs get their scale from their parents.
 		nextNode->GetTransform()->SetScale(nextNode->GetParent()->GetTransform()->getScale());
-		nextNode->GetTransform()->SetParentMatrix(m_transform->getMatrix());
+		nextNode->GetTransform()->SetParentTransform(m_transform);
 		nextNode->Draw(shader);
 		//Childs get their rotation from their parents.
 		//nextNode->GetTransform()->setEulerAngles(nextNode->GetParent()->GetTransform()->getEulerAngles());
@@ -55,8 +55,34 @@ void SceneNode::AddChild(SceneNode* child)
 	m_childs.push_back(child);
 
 	if (!child->GetParent())
+	{
 		child->SetParent(this);
+	}
+	else //Remove child from its previous parent.
+	{
+		SceneNode* tempParent = child->GetParent();
+		child->SetParent(this);
+		tempParent->RemoveChild(child);
+	}
 }
+
+void SceneNode::RemoveChild(SceneNode* child)
+{
+	if (!m_childs.empty())
+	{
+		int i = 0;
+		for (std::vector<SceneNode*>::iterator iter = m_childs.begin(); iter != m_childs.end(); iter++, i++)
+		{
+			if (m_childs[i]->GetName() == child->GetName())
+			{
+				m_childs.erase(iter);
+				iter = m_childs.begin(); // A BIT PROBLEMATIC
+				i = 0;
+			}
+		}
+	}
+}
+
 void SceneNode::AddMesh(Mesh* mesh)
 {
 	m_meshes.push_back(mesh);
@@ -81,6 +107,7 @@ std::string SceneNode::GetName()
 {
 	return m_name;
 }
+
 SceneNode* SceneNode::GetChild(int index)
 {
 	if (index < m_childs.size())
@@ -99,6 +126,11 @@ SceneNode* SceneNode::GetChildByName(std::string name)
 		}
 	}
 	return nullptr;
+}
+
+SceneNode::SceneNodeList SceneNode::GetChildList()
+{
+	return m_childs;
 }
 
 int SceneNode::GetChildCount()

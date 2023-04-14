@@ -30,6 +30,8 @@ public:
 	int GetChildCount();
 	SceneNode* GetParent();
 	Transform* GetTransform();
+	SceneNodeList GetChildList();
+	void RemoveChild(SceneNode* child);
 
 protected:
 	std::string m_name;

@@ -22,5 +22,4 @@ private:
 	
 	int										triangleCount, circleCount, squareCount;
 	std::string							childToBeName;
-	void									DrawTree(SceneNode* node);
 };

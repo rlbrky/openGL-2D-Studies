@@ -5,14 +5,14 @@
 Transform::Transform() {
 	m_position = glm::vec2(0.0f, 0.0f);
 	m_scale = glm::vec2(1.0f, 1.0f);
-	m_eulerAngles = glm::vec2(0.0f, 0.0f);
+	m_Rotation = glm::vec2(0.0f, 0.0f);
 	m_mtxTransform = glm::mat3(1);
 }
 glm::mat3 Transform::getMatrix() {
 	return m_mtxTransform;
 }
-glm::vec2& Transform::getEulerAngles() {
-	return m_eulerAngles;
+glm::vec2& Transform::getRotation() {
+	return m_Rotation;
 }
 glm::vec2& Transform::getPosition() {
 	return m_position;
@@ -22,13 +22,13 @@ glm::vec2& Transform::getScale()
 	return m_scale;
 }
 
-void Transform::SetParentMatrix(glm::mat3 parent)
+void Transform::SetParentTransform(Transform* parent)
 {
-	m_mtxTransform = m_mtxTransform * parent;
+	m_Parent = parent;
 }
 
-void Transform::SetEulerAngles(const glm::vec2& angles) {
-	m_eulerAngles = angles;
+void Transform::SetRotation(const glm::vec2& angles) {
+	m_Rotation = angles;
 	Update();
 }
 void Transform::SetPosition(const glm::vec2& pos) {
@@ -44,12 +44,21 @@ void Transform::SetScale(const glm::vec2& scale)
 void Transform::Update()
 {
 	glm::mat3 mtxTranslate = glm::translate(glm::mat3(1), m_position);
+
 	glm::mat3 mtxScale = glm::scale(glm::mat3(1), m_scale);
 
 	//We will calculate in zyx order.
 
 	glm::mat3 mtxRot = glm::rotate(glm::mat3(1),
-																glm::radians(m_eulerAngles.x));
+																glm::radians(m_Rotation.x));
+
+	if (m_Parent)
+	{
+		glm::vec2 parentPos = m_Parent->getPosition();
+		mtxTranslate = glm::translate(mtxTranslate, parentPos);
+
+		mtxRot = glm::rotate(mtxRot, glm::radians(m_Parent->getRotation().x));
+	}
 
 	//Calculate transform in TRS - Translate - Rotate - Scale order.
 

@@ -85,47 +85,18 @@ void WindowTransform::Draw()
 	
 	ImGui::Separator();
 	//New system that lets you control 1 item at a time.(That item being the selected one.)
-	ImGui::SliderFloat("Rotation", &m_ActiveNode->GetTransform()->getEulerAngles().x, 0, 360);
+	ImGui::SliderFloat("Rotation", &m_ActiveNode->GetTransform()->getRotation().x, 0, 360);
 	ImGui::SliderFloat2("Transition", &m_ActiveNode->GetTransform()->getPosition().x, -1, 1);
 
 	ImGui::Separator();
 	ImGui::InputText("Enter Child Name", &childToBeName);
-	if (ImGui::Button("Set Child"))//TO DO: After this Remove First Node?
+	if (ImGui::Button("Set Child")) //LISTEDE ITEM BITTIÐINDE ILKI HARIÇ KAYBOLUYORLAR ?
 	{
 		m_ActiveNode->AddChild(m_Root->GetChildByName(childToBeName));
-		m_Root->GetChildByName(childToBeName)->SetParent(m_ActiveNode);
 		childToBeName = "";
 	}
 
 	ImGui::End();
-
-	ImGui::Begin("Hierarchy"); //Hierarchy panel
-	DrawTree(m_Root);
-	ImGui::End();
-}
-
-void WindowTransform::DrawTree(SceneNode* node)
-{
-	if (node)
-	{
-		unsigned int flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnDoubleClick;
-		if (node == m_ActiveNode)
-		{
-			flags |= ImGuiTreeNodeFlags_Selected;
-		}
-		if (ImGui::TreeNodeEx(node->GetName().c_str(), flags))
-		{
-			if (ImGui::IsItemActive())
-			{
-				m_ActiveNode = node;
-			}
-			for (int i = 0; i < node->GetChildCount(); i++)
-			{ //Write sceneNode's childs to panel
-				DrawTree(node->GetChild(i));
-			}
-			ImGui::TreePop();
-		}
-	}
 }
 
 
