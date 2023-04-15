@@ -7,7 +7,7 @@ class MeshManager;
 class Mesh
 {
 public:
-	void Draw();
+	void Draw(); //Uses glDrawElements
 private:
 	VertexArrayObject* m_Vao;
 	unsigned int m_IndexCount;

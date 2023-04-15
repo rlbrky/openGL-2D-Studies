@@ -60,7 +60,7 @@
     <ClCompile Include="src\VAOManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\WindowTransform.cpp">
+    <ClCompile Include="src\UI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\SetupHandler.cpp">
@@ -73,9 +73,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\SceneNode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\WindowScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\imgui_stdlib.cpp">
@@ -134,7 +131,7 @@
     <ClInclude Include="include\VAOManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\WindowTransform.h">
+    <ClInclude Include="include\UI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\SetupHandler.h">
@@ -144,9 +141,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\SceneNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\WindowScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\imgui_stdlib.h">

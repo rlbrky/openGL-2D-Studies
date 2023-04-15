@@ -11,7 +11,7 @@
 #include "MeshManager.h"
 #include "Mesh.h"
 #include "Scene.h"
-#include "WindowTransform.h"
+#include "UI.h"
 #include "SetupHandler.h"
 #include "Transform.h"
 
@@ -29,7 +29,7 @@ glm::vec2 vecMove;
 
 Scene* scene;
 
-WindowTransform* tempTransform;
+UI* tempTransform;
 float zoom;
 
 unsigned int programID;
@@ -49,7 +49,7 @@ int main() {
 	scene = new Scene(setupHandler->GetWindowPtr());
 	MeshManager* manager = scene->getMeshManager();
 
-	tempTransform = scene->GetWindowTransform();
+	tempTransform = scene->GetUI();
 
 	setupHandler->AddRenderFunction(std::bind(&Scene::Update, scene));
 	setupHandler->AddRenderFunction(std::bind(&Scene::Draw, scene));

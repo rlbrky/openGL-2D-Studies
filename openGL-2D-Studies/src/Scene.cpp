@@ -3,8 +3,7 @@
 #include "MeshManager.h"
 #include "VAOManager.h"
 #include "SceneNode.h"
-#include "WindowTransform.h"
-#include "WindowScene.h"
+#include "UI.h"
 #include "Grid.h"
 
 #include "imgui.h"
@@ -17,11 +16,10 @@ Scene::Scene(GLFWwindow* myWindow)
 	m_VaoManager = new VAOManager();
 	m_MeshManager = new MeshManager(m_VaoManager);
 	shader = new Shader();
-	BindShader();
+	CreateShader();
 	m_Root = new SceneNode();
 	m_Root->SetName("Scene");
-	m_WindowTransform = new WindowTransform(m_MeshManager, m_Root);
-	m_WindowScene = new WindowScene(m_Root);
+	m_UI = new UI(m_MeshManager, m_Root);
 	Build(myWindow);
 }
 
@@ -38,7 +36,7 @@ void Scene::Draw()
 {
 	glBindVertexArray(gridVAO);
 	grid.gridShader->UseShader();
-	glDrawElements(GL_LINES, grid.GetGridIntexCount(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_LINES, grid.GetGridIndexCount(), GL_UNSIGNED_INT, 0);
 
 	m_Root->Draw(shader);
 	DrawGui();
@@ -49,19 +47,14 @@ void Scene::Update()
 	m_Root->Update();
 }
 
-void Scene::AddNodeToScene(SceneNode* newNode)
-{
-	m_Root->AddChild(newNode);
-}
-
 //Can add parameters for different shaders.
-void Scene::BindShader()
+void Scene::CreateShader()
 {
 	shader->CreateFromFiles(vertexShader, fragmentShader);
 }
 
-WindowTransform* Scene::GetWindowTransform() {
-	return m_WindowTransform;
+UI* Scene::GetUI() {
+	return m_UI;
 }
 
 void Scene::DrawGui()
@@ -71,10 +64,10 @@ void Scene::DrawGui()
 	ImGui::NewFrame();
 
 	//Creating Scene
-	m_WindowTransform->Draw();
-	m_WindowScene->Draw();
+	m_UI->Draw();
+	/*m_WindowScene->Draw();
 	SceneNode* activeNode = m_WindowScene->GetActiveNode();
-	m_WindowTransform->SetActiveNode(activeNode);
+	m_UI->SetActiveNode(activeNode);*/
 
 	ImGui::EndFrame();
 	ImGui::Render();

@@ -52,12 +52,13 @@ void Transform::Update()
 	glm::mat3 mtxRot = glm::rotate(glm::mat3(1),
 																glm::radians(m_Rotation.x));
 
-	if (m_Parent)
+	if (m_Parent) // PARENT varsa parent'ýn transform matrisini kendisiyle çarp
 	{
-		glm::vec2 parentPos = m_Parent->getPosition();
+		m_mtxTransform = m_mtxTransform * m_Parent->getMatrix();
+		/*glm::vec2 parentPos = m_Parent->getPosition();
 		mtxTranslate = glm::translate(mtxTranslate, parentPos);
 
-		mtxRot = glm::rotate(mtxRot, glm::radians(m_Parent->getRotation().x));
+		mtxRot = glm::rotate(mtxRot, glm::radians(m_Parent->getRotation().x));*/
 	}
 
 	//Calculate transform in TRS - Translate - Rotate - Scale order.

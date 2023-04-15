@@ -8,13 +8,18 @@ class Mesh;
 class MeshManager;
 class SceneNode;
 
-class WindowTransform
+class UI
 {
 public:
-	WindowTransform(MeshManager* meshManager, SceneNode* root);
-	void Draw();
+	UI(MeshManager* meshManager, SceneNode* root);
+
+	void Draw();																																//Create Object Creator and Properties Panels.
+
 	void SetSceneNodeScale(float zoom);
 	void SetActiveNode(SceneNode* node);
+
+	void DrawTree(SceneNode* node);																					//Create hierarchy panel using TreeNodeEX from imgui
+
 private:
 	MeshManager*				m_MeshManager;
 	SceneNode*						m_Root;

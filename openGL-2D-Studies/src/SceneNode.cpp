@@ -28,10 +28,9 @@ void SceneNode::Update()
 		nextNode->Update();
 }
 
-void SceneNode::Draw(Shader* shader)
+void SceneNode::Draw(Shader* shader) // SCENE-SQUARE-TRIANGLE----
 {
 	shader->UseShader();
-	//TO DO: Every object should have their own color.
 	shader->SetUniformColor(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
 
 	glm::mat3 mtxTransform = m_transform->getMatrix();
@@ -43,16 +42,15 @@ void SceneNode::Draw(Shader* shader)
 	{
 		//Childs get their scale from their parents.
 		nextNode->GetTransform()->SetScale(nextNode->GetParent()->GetTransform()->getScale());
-		nextNode->GetTransform()->SetParentTransform(m_transform);
+		
 		nextNode->Draw(shader);
-		//Childs get their rotation from their parents.
-		//nextNode->GetTransform()->setEulerAngles(nextNode->GetParent()->GetTransform()->getEulerAngles());
 	}
 }
 
 void SceneNode::AddChild(SceneNode* child)
-{
+{//Set child properties.
 	m_childs.push_back(child);
+	child->GetTransform()->SetParentTransform(m_transform);
 
 	if (!child->GetParent())
 	{

@@ -91,7 +91,7 @@ Mesh* MeshManager::createCircle(float radius, int pointCount) {
 		}
 
 		for (int i = 0; i < triangleCount; i++) {
-			indexList.push_back(0);
+			indexList.push_back(0); //1st point is the same for every triangle(Right of circle)
 			indexList.push_back(i+1); 
 			indexList.push_back(i+2); 
 		}

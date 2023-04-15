@@ -159,8 +159,7 @@
     <ClCompile Include="src\Transform.cpp" />
     <ClCompile Include="src\VAOManager.cpp" />
     <ClCompile Include="src\VertexArrayObject.cpp" />
-    <ClCompile Include="src\WindowScene.cpp" />
-    <ClCompile Include="src\WindowTransform.cpp" />
+    <ClCompile Include="src\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Grid.h" />
@@ -184,8 +183,7 @@
     <ClInclude Include="include\VAOManager.h" />
     <ClInclude Include="include\VertexArrayObject.h" />
     <ClInclude Include="include\VertexTypes.h" />
-    <ClInclude Include="include\WindowScene.h" />
-    <ClInclude Include="include\WindowTransform.h" />
+    <ClInclude Include="include\UI.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

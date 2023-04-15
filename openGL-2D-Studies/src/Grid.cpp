@@ -51,7 +51,7 @@ int Grid::createGrid(int segmentCount) {
 	return vertexArrayObjectId;
 }
 
-int Grid::GetGridIntexCount() {
+int Grid::GetGridIndexCount() {
 	return gridIndexCount;
 }
 

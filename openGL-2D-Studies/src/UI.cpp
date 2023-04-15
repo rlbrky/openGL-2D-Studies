@@ -1,4 +1,4 @@
-#include "WindowTransform.h"
+#include "UI.h"
 
 #include "Mesh.h"
 #include "MeshManager.h"
@@ -11,7 +11,7 @@
 
 #include <iostream>
 
-WindowTransform::WindowTransform(MeshManager* meshManager, SceneNode* root)
+UI::UI(MeshManager* meshManager, SceneNode* root)
 {
 	triangleCount = 0; circleCount = 0; squareCount = 0;
 
@@ -21,18 +21,18 @@ WindowTransform::WindowTransform(MeshManager* meshManager, SceneNode* root)
 	childToBeName = "";
 }
 
-void WindowTransform::SetSceneNodeScale(float zoom)
+void UI::SetSceneNodeScale(float zoom)
 {
 	m_Root->GetTransform()->SetScale(glm::vec2(zoom, zoom));
 }
 
-void WindowTransform::SetActiveNode(SceneNode* node)
+void UI::SetActiveNode(SceneNode* node)
 {
 	m_ActiveNode = node;
 }
 
 //Gets called every frame
-void WindowTransform::Draw()
+void UI::Draw()
 {
 	ImGui::Begin("Menu");
 	if(ImGui::BeginMenu("Object Creator"))
@@ -97,6 +97,34 @@ void WindowTransform::Draw()
 	}
 
 	ImGui::End();
+
+	ImGui::Begin("Hierarchy"); //Hierarchy panel
+		DrawTree(m_Root);
+	ImGui::End();
+}
+
+void UI::DrawTree(SceneNode* node)
+{
+	if (node)
+	{
+		unsigned int flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnDoubleClick;
+		if (node == m_ActiveNode)
+		{
+			flags |= ImGuiTreeNodeFlags_Selected;
+		}
+		if (ImGui::TreeNodeEx(node->GetName().c_str(), flags))
+		{
+			if (ImGui::IsItemActive())
+			{
+				m_ActiveNode = node;
+			}
+			for (int i = 0; i < m_Root->GetChildCount(); i++)
+			{ //Write sceneNode's childs to panel
+				DrawTree(node->GetChild(i));
+			}
+			ImGui::TreePop();
+		}
+	}
 }
 
 

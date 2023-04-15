@@ -13,11 +13,11 @@ public:
 	VertexArrayObject();
 	~VertexArrayObject();
 
-	void Build(const VertexTypeList& vertices, const IndexList& indexList);
+	void Build(const VertexTypeList& vertices, const IndexList& indexList);			//Standart Opengl pipeline with VAO, VBO, IBO
 
 	int GetIndexCount();
 	int GetVertexCount();
 
-	void Activate();
+	void Activate();																														//Bind vertexArray and VertexAttribArray
 	void Deactivate();
 };

@@ -13,25 +13,27 @@ public:
 
 	SceneNode(SceneNode* parent = nullptr);
 
-	virtual void Build(MeshManager* MeshManager = 0);
-	virtual void Start();
-	virtual void Update();
-	virtual void Draw(Shader* shader);
+	virtual void Build(MeshManager* MeshManager = 0);		//Call build func for every node.
+	virtual void Start();																			//Empty for now.
+	virtual void Update();																		//Update transform for every node.
+	virtual void Draw(Shader* shader);											//Send transform matrix to shaders, set child scales etc.
 
-	void AddChild(SceneNode* child);
+	void AddChild(SceneNode* child);												//Sets child parent automatically.
 	void AddMesh(Mesh* mesh);
 	void SetParent(SceneNode* parent);
 	void SetName(const std::string& name);
 	void SetTransform(Transform* transform);
 
 	std::string GetName();
+
 	SceneNode* GetChild(int index);
 	SceneNode* GetChildByName(std::string name);
 	int GetChildCount();
-	SceneNode* GetParent();
-	Transform* GetTransform();
 	SceneNodeList GetChildList();
 	void RemoveChild(SceneNode* child);
+
+	SceneNode* GetParent();
+	Transform* GetTransform();
 
 protected:
 	std::string m_name;

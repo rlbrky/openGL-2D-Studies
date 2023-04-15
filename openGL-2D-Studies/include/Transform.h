@@ -16,7 +16,9 @@ public:
 	void SetPosition(const glm::vec2& pos);
 	void SetScale(const glm::vec2& scale);
 	void SetRotation(const glm::vec2& angles);
-	void Update();
+
+	void Update();																				//Do calculations that is given to shaders.
+
 protected:
 	glm::vec2				m_position;
 	glm::vec2				m_scale;

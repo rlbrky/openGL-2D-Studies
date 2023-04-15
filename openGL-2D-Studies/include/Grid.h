@@ -8,7 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 
-class Grid {
+class Grid { //Creates the grid 
 private:
 	const char* gridVertexLocation = "Shaders/lineVertexShader.vert";
 	const char* gridFragmentLocation = "Shaders/lineFragmentShader.frag";
@@ -22,7 +22,7 @@ private:
 		Shader* gridShader;
 	Grid();
 	int createGrid(int segmentCount);
-	int GetGridIntexCount();
+	int GetGridIndexCount();
 	//void setTransform(const glm::mat3& transform);
 	~Grid();
 };
