@@ -1,12 +1,14 @@
 #include "Transform.h"
 #include <glm/gtx/matrix_transform_2d.hpp>
 #include <iostream>
+#include <glm/gtx/matrix_decompose.hpp>
 
 Transform::Transform() {
 	m_position = glm::vec2(0.0f, 0.0f);
 	m_scale = glm::vec2(1.0f, 1.0f);
 	m_Rotation = glm::vec2(0.0f, 0.0f);
 	m_mtxTransform = glm::mat3(1);
+	m_Parent = nullptr;
 }
 glm::mat3 Transform::getMatrix() {
 	return m_mtxTransform;
@@ -20,6 +22,10 @@ glm::vec2& Transform::getPosition() {
 glm::vec2& Transform::getScale()
 {
 	return m_scale;
+}
+Transform* Transform::GetParent()
+{
+	return m_Parent;
 }
 
 void Transform::SetParentTransform(Transform* parent)
@@ -52,13 +58,21 @@ void Transform::Update()
 	glm::mat3 mtxRot = glm::rotate(glm::mat3(1),
 																glm::radians(m_Rotation.x));
 
-	if (m_Parent) // PARENT varsa parent'ýn transform matrisini kendisiyle çarp
+	if (m_Parent) // Get values from parent. AÞAÐIDAKÝ KODU RECURSIVE YAP.
 	{
-		m_mtxTransform = m_mtxTransform * m_Parent->getMatrix();
-		/*glm::vec2 parentPos = m_Parent->getPosition();
-		mtxTranslate = glm::translate(mtxTranslate, parentPos);
+		mtxTranslate = glm::translate(mtxTranslate, m_Parent->getPosition());
 
-		mtxRot = glm::rotate(mtxRot, glm::radians(m_Parent->getRotation().x));*/
+		mtxScale = glm::scale(mtxScale, m_Parent->getScale());
+
+		mtxRot = glm::rotate(mtxRot, glm::radians(m_Parent->getRotation().x));
+		if (auto grandParent = m_Parent->GetParent())
+		{
+			mtxTranslate = glm::translate(mtxTranslate, grandParent->getPosition());
+
+			mtxScale = glm::scale(mtxScale, grandParent->getScale());
+
+			mtxRot = glm::rotate(mtxRot, glm::radians(grandParent->getRotation().x));
+		}
 	}
 
 	//Calculate transform in TRS - Translate - Rotate - Scale order.

@@ -51,7 +51,7 @@ Mesh* MeshManager::createTriangle(float length) {
 
 		//Mapping our triangle
 		IndexList indexList = {
-			0, 1, 2 //left bottom point
+			0, 1, 2 
 		};
 
 		VertexArrayObject* vao = new VertexArrayObject();

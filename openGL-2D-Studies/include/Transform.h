@@ -11,6 +11,7 @@ public:
 	glm::vec2& getRotation();
 	glm::vec2& getPosition();
 	glm::vec2& getScale();
+	Transform* GetParent();
 
 	void SetParentTransform(Transform* parent);
 	void SetPosition(const glm::vec2& pos);

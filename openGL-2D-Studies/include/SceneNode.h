@@ -36,10 +36,10 @@ public:
 	Transform* GetTransform();
 
 protected:
-	std::string m_name;
-	SceneNodeList m_childs;
-	SceneNode* m_parent;
-	Transform* m_transform;
-	MeshList m_meshes;
+	std::string					m_name;
+	SceneNodeList		m_childs;
+	SceneNode*				m_parent;
+	Transform*				m_transform;
+	MeshList					m_meshes;
 };
 

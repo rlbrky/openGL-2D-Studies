@@ -90,7 +90,7 @@ void UI::Draw()
 
 	ImGui::Separator();
 	ImGui::InputText("Enter Child Name", &childToBeName);
-	if (ImGui::Button("Set Child")) //LISTEDE ITEM BITTIÐINDE ILKI HARIÇ KAYBOLUYORLAR ?
+	if (ImGui::Button("Set Child"))
 	{
 		m_ActiveNode->AddChild(m_Root->GetChildByName(childToBeName));
 		childToBeName = "";
@@ -118,7 +118,7 @@ void UI::DrawTree(SceneNode* node)
 			{
 				m_ActiveNode = node;
 			}
-			for (int i = 0; i < m_Root->GetChildCount(); i++)
+			for (int i = 0; i < node->GetChildCount(); i++)
 			{ //Write sceneNode's childs to panel
 				DrawTree(node->GetChild(i));
 			}
@@ -131,25 +131,26 @@ void UI::DrawTree(SceneNode* node)
 //DRAG DROP FAILED CODE
 //Selecting a second node how will that work ?
 //Never managed to enter payload section.
-/*
+
 	//The moment you grab the object create source
-	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) //No flags set bc every node is both source and targets.
+/*	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) //No flags set bc every node is both source and targets.
 	{
-		//Set it to carry nodes - BE CAREFUL - Could lead to mistakes.
+		//Set it to carry nodes
 		ImGui::SetDragDropPayload("Organise_Tree", &m_ActiveNode, sizeof(&m_ActiveNode));
 		ImGui::EndDragDropSource();
-	}//TO DO: FOR SOME REASON ONLY DRAGGING FROM BELOW IS POSSIBLE
+	}
 
 	if (ImGui::BeginDragDropTarget())//Drop procedures.
 	{
 		std::cout << "PAYLOAD ACCEPTED" << std::endl;
-		//if(const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Organise_Tree"))
-		// {
-		// } //NEED FIX
-		//*(SceneNode*)payload->Data
+		if(const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Organise_Tree"))
+		 {
+			(SceneNode*)payload->Data
+		 }
+		
 		ImGui::EndDragDropTarget();
 	}
-*/
+	*/
 
 //OLD SYSTEM THAT LETS YOU SEE ALL ITEMS.
 /*

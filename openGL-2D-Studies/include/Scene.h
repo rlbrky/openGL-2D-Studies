@@ -15,11 +15,11 @@ class Scene
 {
 public:
 	Scene(GLFWwindow* myWindow);
-	void Build(GLFWwindow* myWindow); //Create imgui context
+	void Build(GLFWwindow* myWindow);			//Create imgui context
 	void Draw();
-	void DrawGui();							//Open imgui newframe and call draw functions
-	void Update();							//Update node
-	void CreateShader();					//Creates shader
+	void DrawGui();														//Open imgui newframe and call draw functions
+	void Update();														//Update node
+	void CreateShader();												//Creates shader
 
 	UI* GetUI();
 	MeshManager* getMeshManager();

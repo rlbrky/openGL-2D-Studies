@@ -25,7 +25,9 @@ void SceneNode::Update()
 	m_transform->Update();
 
 	for (auto nextNode : m_childs)
+	{
 		nextNode->Update();
+	}
 }
 
 void SceneNode::Draw(Shader* shader) // SCENE-SQUARE-TRIANGLE----
@@ -40,8 +42,6 @@ void SceneNode::Draw(Shader* shader) // SCENE-SQUARE-TRIANGLE----
 		nextMesh->Draw();
 	for (auto nextNode : m_childs)
 	{
-		//Childs get their scale from their parents.
-		nextNode->GetTransform()->SetScale(nextNode->GetParent()->GetTransform()->getScale());
 		
 		nextNode->Draw(shader);
 	}
@@ -74,8 +74,7 @@ void SceneNode::RemoveChild(SceneNode* child)
 			if (m_childs[i]->GetName() == child->GetName())
 			{
 				m_childs.erase(iter);
-				iter = m_childs.begin(); // A BIT PROBLEMATIC
-				i = 0;
+				break;
 			}
 		}
 	}
