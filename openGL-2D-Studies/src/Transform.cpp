@@ -33,6 +33,20 @@ void Transform::SetParentTransform(Transform* parent)
 	m_Parent = parent;
 }
 
+void Transform::ApplyParent(Transform* parent)
+{
+	if (parent) // Get values from parent.
+	{
+		mtxTranslate = glm::translate(mtxTranslate, parent->getPosition());
+
+		mtxScale = glm::scale(mtxScale, parent->getScale());
+
+		mtxRot = glm::rotate(mtxRot, glm::radians(parent->getRotation().x));
+
+		ApplyParent(parent->GetParent());
+	}
+}
+
 void Transform::SetRotation(const glm::vec2& angles) {
 	m_Rotation = angles;
 	Update();
@@ -49,31 +63,14 @@ void Transform::SetScale(const glm::vec2& scale)
 
 void Transform::Update()
 {
-	glm::mat3 mtxTranslate = glm::translate(glm::mat3(1), m_position);
+	mtxTranslate = glm::translate(glm::mat3(1), m_position);
 
-	glm::mat3 mtxScale = glm::scale(glm::mat3(1), m_scale);
+	mtxScale = glm::scale(glm::mat3(1), m_scale);
 
-	//We will calculate in zyx order.
-
-	glm::mat3 mtxRot = glm::rotate(glm::mat3(1),
+	mtxRot = glm::rotate(glm::mat3(1),
 																glm::radians(m_Rotation.x));
 
-	if (m_Parent) // Get values from parent. AÞAÐIDAKÝ KODU RECURSIVE YAP.
-	{
-		mtxTranslate = glm::translate(mtxTranslate, m_Parent->getPosition());
-
-		mtxScale = glm::scale(mtxScale, m_Parent->getScale());
-
-		mtxRot = glm::rotate(mtxRot, glm::radians(m_Parent->getRotation().x));
-		if (auto grandParent = m_Parent->GetParent())
-		{
-			mtxTranslate = glm::translate(mtxTranslate, grandParent->getPosition());
-
-			mtxScale = glm::scale(mtxScale, grandParent->getScale());
-
-			mtxRot = glm::rotate(mtxRot, glm::radians(grandParent->getRotation().x));
-		}
-	}
+	ApplyParent(m_Parent);
 
 	//Calculate transform in TRS - Translate - Rotate - Scale order.
 

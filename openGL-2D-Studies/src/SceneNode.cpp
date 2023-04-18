@@ -30,7 +30,7 @@ void SceneNode::Update()
 	}
 }
 
-void SceneNode::Draw(Shader* shader) // SCENE-SQUARE-TRIANGLE----
+void SceneNode::Draw(Shader* shader)
 {
 	shader->UseShader();
 	shader->SetUniformColor(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));

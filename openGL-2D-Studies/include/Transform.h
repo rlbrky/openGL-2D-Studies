@@ -13,6 +13,8 @@ public:
 	glm::vec2& getScale();
 	Transform* GetParent();
 
+	void ApplyParent(Transform* parent);
+
 	void SetParentTransform(Transform* parent);
 	void SetPosition(const glm::vec2& pos);
 	void SetScale(const glm::vec2& scale);
@@ -25,6 +27,9 @@ protected:
 	glm::vec2				m_scale;
 	glm::vec2				m_Rotation;
 	glm::mat3				m_mtxTransform;
+
+private:
+	glm::mat3				mtxTranslate, mtxScale, mtxRot;
 	Transform*			m_Parent;
 };
 
