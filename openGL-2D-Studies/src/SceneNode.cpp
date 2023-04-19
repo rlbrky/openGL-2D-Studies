@@ -42,7 +42,6 @@ void SceneNode::Draw(Shader* shader)
 		nextMesh->Draw();
 	for (auto nextNode : m_childs)
 	{
-		
 		nextNode->Draw(shader);
 	}
 }

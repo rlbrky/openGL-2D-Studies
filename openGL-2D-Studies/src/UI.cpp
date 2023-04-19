@@ -9,8 +9,6 @@
 #include "imgui_impl_opengl3.h"
 #include "imgui_stdlib.h"
 
-#include <glm/gtx/matrix_transform_2d.hpp>
-
 #include <iostream>
 
 UI::UI(MeshManager* meshManager, SceneNode* root)
