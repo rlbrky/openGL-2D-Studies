@@ -9,6 +9,8 @@
 #include "imgui_impl_opengl3.h"
 #include "imgui_stdlib.h"
 
+#include <glm/gtx/matrix_transform_2d.hpp>
+
 #include <iostream>
 
 UI::UI(MeshManager* meshManager, SceneNode* root)
@@ -86,7 +88,10 @@ void UI::Draw()
 	ImGui::Separator();
 	//New system that lets you control 1 item at a time.(That item being the selected one.)
 	ImGui::SliderFloat("Rotation", &m_ActiveNode->GetTransform()->getRotation().x, 0, 360);
-	ImGui::SliderFloat2("Transition", &m_ActiveNode->GetTransform()->getPosition().x, -1, 1);
+	
+	glm::vec2 position = m_ActiveNode->GetTransform()->getPosition();
+	ImGui::SliderFloat2("Translation", &position.x, -1, 1);
+	m_ActiveNode->GetTransform()->SetPosition(position);
 
 	ImGui::Separator();
 	ImGui::InputText("Enter Child Name", &childToBeName);

@@ -83,7 +83,7 @@ Mesh* MeshManager::createCircle(float radius, int pointCount) {
 
 			float x = radius * cos(glm::radians(newAngle));
 			float y = radius * sin(glm::radians(newAngle));
-			float z = 0.0f;
+			float z = 1.0f;
 
 			vertices.push_back(x);
 			vertices.push_back(y);
