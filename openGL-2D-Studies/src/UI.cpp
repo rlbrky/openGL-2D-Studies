@@ -90,16 +90,7 @@ void UI::Draw()
 	glm::vec2 position = m_ActiveNode->GetTransform()->getPosition();
 	ImGui::SliderFloat2("Translation", &position.x, -1, 1);
 	m_ActiveNode->GetTransform()->SetPosition(position);
-
-	ImGui::Separator();
-	ImGui::InputText("Enter Child Name", &childToBeName);
-	if (ImGui::Button("Set Child"))
-	{
-		m_ActiveNode->AddChild(m_Root->GetChildByName(childToBeName));
-		childToBeName = "";
-	}
-
-	ImGui::End();
+	ImGui::End(); //End of Properties Panel
 
 	ImGui::Begin("Hierarchy"); //Hierarchy panel
 		DrawTree(m_Root);
@@ -115,11 +106,30 @@ void UI::DrawTree(SceneNode* node)
 		{
 			flags |= ImGuiTreeNodeFlags_Selected;
 		}
+		if (node->GetChildList().size() == 0) //If node has no child, don't show arrow.
+		{
+			flags |= ImGuiTreeNodeFlags_Leaf;
+		}
 		if (ImGui::TreeNodeEx(node->GetName().c_str(), flags))
 		{
+			if (ImGui::BeginDragDropTarget())//Drop procedures.
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Organise_Tree"))
+				{
+					node->AddChild((*(SceneNode**)payload->Data));
+				}
+
+				ImGui::EndDragDropTarget();
+			}
 			if (ImGui::IsItemActive())
 			{
 				m_ActiveNode = node;
+				if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) //No flags set bc every node is both source and targets.
+				{
+					//Set it to carry nodes
+					ImGui::SetDragDropPayload("Organise_Tree", &node, sizeof(SceneNode*), ImGuiCond_Once);
+					ImGui::EndDragDropSource();
+				}
 			}
 			for (int i = 0; i < node->GetChildCount(); i++)
 			{ //Write sceneNode's childs to panel
