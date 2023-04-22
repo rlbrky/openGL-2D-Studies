@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\FileManager.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\imgui_stdlib.cpp" />
     <ClCompile Include="src\Scene.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="src\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\FileManager.h" />
     <ClInclude Include="include\Grid.h" />
     <ClInclude Include="include\imconfig.h" />
     <ClInclude Include="include\imgui.h" />

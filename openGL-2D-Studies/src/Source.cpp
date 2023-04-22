@@ -62,6 +62,7 @@ int main() {
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) //TO DO: OBJECT MANIPULATION
 {
+	//HOW DO I CHECK IF MOUSE BUTTON IS AT A VERTEX ? IS THE ANSWER ADDING COLLISION ?
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
 	{
 		double mouseX, mouseY;

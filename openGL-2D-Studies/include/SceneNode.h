@@ -23,8 +23,10 @@ public:
 	void SetParent(SceneNode* parent);
 	void SetName(const std::string& name);
 	void SetTransform(Transform* transform);
+	void SetColorValues(glm::vec3 colorVec);
 
 	std::string GetName();
+	glm::vec3 GetColorValues();
 
 	SceneNode* GetChild(int index);
 	SceneNode* GetChildByName(std::string name);
@@ -41,5 +43,6 @@ protected:
 	SceneNode*				m_parent;
 	Transform*				m_transform;
 	MeshList					m_meshes;
+	glm::vec3					m_color;
 };
 

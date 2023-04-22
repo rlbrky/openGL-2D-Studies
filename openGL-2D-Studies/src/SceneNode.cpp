@@ -5,6 +5,7 @@ SceneNode::SceneNode(SceneNode* parent)
 {
 	m_parent = parent;
 	m_transform = new Transform();
+	m_color = glm::vec3(1.0f, 1.0f, 0.0f);
 }
 
 void SceneNode::Build(MeshManager* MeshManager)
@@ -33,7 +34,7 @@ void SceneNode::Update()
 void SceneNode::Draw(Shader* shader)
 {
 	shader->UseShader();
-	shader->SetUniformColor(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
+	shader->SetUniformColor(glm::vec4(m_color, 1.0f));
 
 	glm::mat3 mtxTransform = m_transform->getMatrix();
 	shader->SetUniformMatrixTransform(mtxTransform);
@@ -97,6 +98,16 @@ void SceneNode::SetTransform(Transform* transform)
 	if (m_transform)
 		delete m_transform;
 	m_transform = transform;
+}
+
+void SceneNode::SetColorValues(glm::vec3 colorVec)
+{
+	m_color = colorVec;
+}
+
+glm::vec3 SceneNode::GetColorValues()
+{
+	return m_color;
 }
 
 std::string SceneNode::GetName()

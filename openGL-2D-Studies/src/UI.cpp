@@ -90,7 +90,27 @@ void UI::Draw()
 	glm::vec2 position = m_ActiveNode->GetTransform()->getPosition();
 	ImGui::SliderFloat2("Translation", &position.x, -1, 1);
 	m_ActiveNode->GetTransform()->SetPosition(position);
+
+	glm::vec3 color = m_ActiveNode->GetColorValues();
+	ImGui::ColorEdit3("Color", (float*)&color);
+	m_ActiveNode->SetColorValues(color);
 	ImGui::End(); //End of Properties Panel
+
+	ImGui::Begin("File Management");
+	if (ImGui::Button("Save"))
+	{
+		for(auto node : m_Root->GetChildList())
+			m_FileManager.SaveFile(node);
+	}
+	if (ImGui::Button("Load"))
+	{
+		m_FileManager.LoadFile();
+	}
+	if (ImGui::Button("Delete"))
+	{
+
+	}
+	ImGui::End();
 
 	ImGui::Begin("Hierarchy"); //Hierarchy panel
 		DrawTree(m_Root);
