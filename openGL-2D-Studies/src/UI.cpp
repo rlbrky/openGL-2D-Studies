@@ -108,7 +108,7 @@ void UI::Draw()
 	}
 	if (ImGui::Button("Delete"))
 	{
-
+		//Delete file
 	}
 	ImGui::End();
 

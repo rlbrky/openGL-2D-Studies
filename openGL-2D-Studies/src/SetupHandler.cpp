@@ -16,7 +16,6 @@ bool SetupHandler::Build(int width, int height)
 	if (!glfwInit())
 		return 0;
 
-
 	m_Window = glfwCreateWindow(width, height, "MyWindow", NULL, NULL);
 	if (m_Window == NULL)
 	{

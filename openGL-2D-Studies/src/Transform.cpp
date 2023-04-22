@@ -9,6 +9,7 @@ Transform::Transform() {
 	m_Rotation = glm::vec2(0.0f, 0.0f);
 	m_mtxTransform = glm::mat3(1);
 	m_Parent = nullptr;
+	m_AspectRatio = 1366 / 768;
 }
 glm::mat3 Transform::getMatrix() {
 	return m_mtxTransform;
@@ -66,6 +67,8 @@ void Transform::Update()
 	mtxTranslate = glm::translate(glm::mat3(1), m_position);
 
 	mtxScale = glm::scale(glm::mat3(1), m_scale);
+	//mtxScale = glm::scale(mtxScale, glm::vec2(1.0f,  m_AspectRatio));
+	//mtxScale = glm::scale(mtxScale, glm::vec2(m_scale.x / m_AspectRatio, 1.0f));
 
 	mtxRot = glm::rotate(glm::mat3(1),
 																glm::radians(m_Rotation.x));

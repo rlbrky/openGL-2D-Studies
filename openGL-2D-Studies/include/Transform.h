@@ -31,5 +31,6 @@ protected:
 private:
 	glm::mat3				mtxTranslate, mtxScale, mtxRot;
 	Transform*			m_Parent;
+	float						m_AspectRatio;
 };
 
