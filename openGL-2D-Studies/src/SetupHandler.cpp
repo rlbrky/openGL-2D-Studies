@@ -16,7 +16,7 @@ bool SetupHandler::Build(int width, int height)
 	if (!glfwInit())
 		return 0;
 
-	m_Window = glfwCreateWindow(width, height, "MyWindow", NULL, NULL);
+	m_Window = glfwCreateWindow(width, height, "MyWindow", NULL, NULL);//Check this
 	if (m_Window == NULL)
 	{
 		std::cout << "Can not open window" << std::endl;
