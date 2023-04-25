@@ -3,10 +3,14 @@
 
 #include <iostream>
 
-void FileManager::SaveFile(SceneNode* node)
+void FileManager::SaveFile(SceneNode* root)
 {
 	//Pick position, rotation, scale, color info and other necessary stuff and write them to file.
 	file.open("savefile.txt", std::ios::app);
+	for (auto node : root->GetChildList())
+	{
+		//file << node->
+	}
 	if (file.is_open())
 	{
 		file << "ALO / Test / BOMBA";

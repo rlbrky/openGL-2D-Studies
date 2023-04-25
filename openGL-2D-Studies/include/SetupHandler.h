@@ -3,6 +3,7 @@
 #include<vector>
 #include <glad.h>
 #include <GLFW/glfw3.h>
+#include <UI.h>
 
 typedef std::function<void()> RenderFunction;
 typedef std::vector<RenderFunction> RenderFunctionList;
@@ -15,9 +16,16 @@ public:
 	void BeginRenderLoop();																//Call Render functions that was added.
 
 	void AddRenderFunction(RenderFunction function);			//Add Render Function
+	
+	void SetUI(UI* userInterface);
 
+	static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+	
 	GLFWwindow* GetWindowPtr()const;
 private:
-	RenderFunctionList m_RenderFunctionList;
-	GLFWwindow* m_Window;
+	RenderFunctionList		m_RenderFunctionList;
+	GLFWwindow*				m_Window;
+	float									zoom;
+	UI*										m_UI;
 };

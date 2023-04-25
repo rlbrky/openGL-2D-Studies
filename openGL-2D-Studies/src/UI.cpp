@@ -99,12 +99,11 @@ void UI::Draw()
 	ImGui::Begin("File Management");
 	if (ImGui::Button("Save"))
 	{
-		for(auto node : m_Root->GetChildList())
-			m_FileManager.SaveFile(node);
+		//m_FileManager.SaveFile(m_Root);
 	}
 	if (ImGui::Button("Load"))
 	{
-		m_FileManager.LoadFile();
+		//m_FileManager.LoadFile();
 	}
 	if (ImGui::Button("Delete"))
 	{
