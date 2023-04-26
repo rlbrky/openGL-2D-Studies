@@ -20,6 +20,8 @@ bool SetupHandler::Build(int width, int height)
 
 	m_Window = glfwCreateWindow(width, height, "MyWindow", NULL, NULL);
 	glfwSetWindowUserPointer(m_Window, this);
+	m_Width = width;
+	m_Height = height;
 
 	if (m_Window == NULL)
 	{
@@ -71,16 +73,22 @@ void SetupHandler::SetUI(UI* userInterface)
 	m_UI = userInterface;
 }
 
-void SetupHandler::mouse_button_callback(GLFWwindow* window, int button, int action, int mods) //TO DO: OBJECT MANIPULATION
+void SetupHandler::mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
 	SetupHandler* handler = static_cast<SetupHandler*>(glfwGetWindowUserPointer(window));
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
 	{
 		double mouseX, mouseY;
 		glfwGetCursorPos(window, &mouseX, &mouseY);
-		std::cout << "P_Cursor Position at (" << mouseX << " : " << mouseY << std::endl;
-		//Object position
+		
+		//Getting the x and y values in between -1,1 instead of pixel coordinates.
+		float x = (2.0f * mouseX) / handler->m_Width - 1.0f;
+		float y = 1.0f - (2.0f * mouseY) / handler->m_Height;
+		float z = 1.0f;
+		
+		//Feed this values into VAO? to manipulate object.
 
+		std::cout << "P_Cursor Position at (" << x << " : " << y << std::endl;
 	}
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
 	{

@@ -19,8 +19,8 @@ public:
 	
 	void SetUI(UI* userInterface);
 
-	static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
-	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+	static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);		//A glfw function template for using mouse informations.
+	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);							//A glfw function template for mouse scroll activities.
 	
 	GLFWwindow* GetWindowPtr()const;
 private:
@@ -28,4 +28,5 @@ private:
 	GLFWwindow*				m_Window;
 	float									zoom;
 	UI*										m_UI;
+	int m_Width, m_Height;
 };
