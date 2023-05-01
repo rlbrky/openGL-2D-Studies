@@ -24,8 +24,8 @@ Mesh* MeshManager::createSquare(float length) {
 
 		//Mapping our square
 		IndexList indexList = {
-			0, 1, 2, //left bottom point
-			3, 1, 2, // right bottom point
+			0, 1, 2, //first triangle
+			3, 1, 2, // second triangle
 		};
 		VertexArrayObject* vao = new VertexArrayObject();
 		vao->Build(vertexList, indexList);

@@ -1,4 +1,6 @@
 #include "SetupHandler.h"
+
+#include "Scene.h"
 #include <iostream>
 
 SetupHandler::SetupHandler()
@@ -68,9 +70,14 @@ void SetupHandler::BeginRenderLoop()
 	}
 }
 
-void SetupHandler::SetUI(UI* userInterface)
+void SetupHandler::SetScene(Scene* scene)
 {
-	m_UI = userInterface;
+	m_Scene = scene;
+}
+
+Scene* SetupHandler::GetScene()
+{
+	return m_Scene;
 }
 
 void SetupHandler::mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
@@ -86,6 +93,8 @@ void SetupHandler::mouse_button_callback(GLFWwindow* window, int button, int act
 		float y = 1.0f - (2.0f * mouseY) / handler->m_Height;
 		float z = 1.0f;
 		
+
+		//If the values above hits an object get that objects name and use it to get vao and then feed the new values.
 		//Feed this values into VAO? to manipulate object.
 
 		std::cout << "P_Cursor Position at (" << x << " : " << y << std::endl;
@@ -118,5 +127,5 @@ void SetupHandler::scroll_callback(GLFWwindow* window, double xoffset, double yo
 	if (handler->zoom < -1.0f)
 		handler->zoom = -1.0f;
 
-	handler->m_UI->SetSceneNodeScale(handler->zoom);
+	handler->m_Scene->GetUI()->SetSceneNodeScale(handler->zoom);
 }

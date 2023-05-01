@@ -4,7 +4,6 @@
 #include <GLFW/glfw3.h>
 
 #include "Scene.h"
-#include "MeshManager.h"
 #include "SetupHandler.h"
 
 #define WIDTH 800
@@ -19,9 +18,8 @@ int main() {
 	setupHandler->Build(WIDTH, HEIGHT);
 
 	scene = new Scene(setupHandler->GetWindowPtr());
-	MeshManager* manager = scene->getMeshManager();
 
-	setupHandler->SetUI(scene->GetUI());
+	setupHandler->SetScene(scene);
 
 	setupHandler->AddRenderFunction(std::bind(&Scene::Update, scene));
 	setupHandler->AddRenderFunction(std::bind(&Scene::Draw, scene));
