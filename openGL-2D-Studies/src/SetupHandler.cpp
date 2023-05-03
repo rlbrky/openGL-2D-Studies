@@ -80,6 +80,11 @@ Scene* SetupHandler::GetScene()
 	return m_Scene;
 }
 
+void SetupHandler::UpdateBuffer(unsigned int& id, unsigned int offset, void* data, unsigned int size, unsigned int type) {
+	glBindBuffer(type, id);
+	glBufferSubData(type, offset, size, data);
+}
+
 void SetupHandler::mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
 	SetupHandler* handler = static_cast<SetupHandler*>(glfwGetWindowUserPointer(window));
@@ -93,6 +98,8 @@ void SetupHandler::mouse_button_callback(GLFWwindow* window, int button, int act
 		float y = 1.0f - (2.0f * mouseY) / handler->m_Height;
 		float z = 1.0f;
 		
+		//handler->UpdateBuffer(); -> this should be called with data and buffer id.
+		//HOW TO GET BUFFER ID ?
 
 		//If the values above hits an object get that objects name and use it to get vao and then feed the new values.
 		//Feed this values into VAO? to manipulate object.

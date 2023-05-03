@@ -22,6 +22,7 @@ public:
 	void SetScene(Scene* scene);
 	Scene* GetScene();
 
+	void UpdateBuffer(unsigned int& id, unsigned int offset, void* data, unsigned int size, unsigned int type);
 	static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);		//A glfw function template for using mouse informations.
 	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);							//A glfw function template for mouse scroll activities.
 	
