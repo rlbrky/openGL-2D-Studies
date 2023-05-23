@@ -99,7 +99,10 @@ void SetupHandler::mouse_button_callback(GLFWwindow* window, int button, int act
 		float z = 1.0f;
 		
 		//handler->UpdateBuffer(); -> this should be called with data and buffer id.
+		// 
 		//HOW TO GET BUFFER ID ?
+		//Get child from root node in hierarchy then get child nodes mesh 
+		//from there take buffer id in VertexArrayObject class that is bound to that mesh.
 
 		//If the values above hits an object get that objects name and use it to get vao and then feed the new values.
 		//Feed this values into VAO? to manipulate object.
