@@ -13,8 +13,6 @@ MeshManager::MeshManager(VAOManager* vaoManager) {
 
 Mesh* MeshManager::createSquare(float length) {
 	
-	if (!m_VaoManager->GetVAO("square"))
-	{
 		VertexTypeList vertexList = {
 		-length / 2, -length / 2, 1.0f, //left bottom point 0
 		length / 2, -length / 2, 1.0f, // right bottom point 1 
@@ -27,13 +25,14 @@ Mesh* MeshManager::createSquare(float length) {
 			0, 1, 2, //first triangle
 			3, 1, 2, // second triangle
 		};
+
 		VertexArrayObject* vao = new VertexArrayObject();
 		vao->Build(vertexList, indexList);
-		m_VaoManager->AddNewObject("square", vao);
-	}
+		squareCount++;
+		m_VaoManager->AddNewObject("square " + squareCount, vao);
 
 	Mesh* mesh = new Mesh();
-	mesh->m_Vao = m_VaoManager->GetVAO("square");
+	mesh->m_Vao = m_VaoManager->GetVAO("square " + squareCount);
 	mesh->m_IndexCount = mesh->m_Vao->GetIndexCount();
 
 	return mesh;
@@ -41,8 +40,6 @@ Mesh* MeshManager::createSquare(float length) {
 
 Mesh* MeshManager::createTriangle(float length) {
 
-	if (!m_VaoManager->GetVAO("triangle"))
-	{
 		VertexTypeList vertices = {
 			-length / 2, -length / 2, 1.0f, //left bottom point 0
 			length / 2, -length / 2, 1.0f, // right bottom point 1 
@@ -56,12 +53,12 @@ Mesh* MeshManager::createTriangle(float length) {
 
 		VertexArrayObject* vao = new VertexArrayObject();
 		vao->Build(vertices, indexList);
-		m_VaoManager->AddNewObject("triangle", vao);
-	}
+		triangleCount++;
+		m_VaoManager->AddNewObject("triangle " + triangleCount, vao);
 
 	
 	Mesh* mesh = new Mesh();
-	mesh->m_Vao = m_VaoManager->GetVAO("triangle");
+	mesh->m_Vao = m_VaoManager->GetVAO("triangle " + triangleCount);
 	mesh->m_IndexCount = mesh->m_Vao->GetIndexCount();
 
 	return mesh;
@@ -98,11 +95,12 @@ Mesh* MeshManager::createCircle(float radius, int pointCount) {
 
 		VertexArrayObject* vao = new VertexArrayObject();
 		vao->Build(vertices, indexList);
-		m_VaoManager->AddNewObject("circle", vao);
+		circleCount++;
+		m_VaoManager->AddNewObject("circle " + circleCount, vao);
 	}
 
 	Mesh* mesh = new Mesh();
-	mesh->m_Vao = m_VaoManager->GetVAO("circle");
+	mesh->m_Vao = m_VaoManager->GetVAO("circle " + circleCount);
 	mesh->m_IndexCount = mesh->m_Vao->GetIndexCount();
 	return mesh;
 }

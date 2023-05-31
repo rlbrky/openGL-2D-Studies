@@ -9,6 +9,7 @@ class MeshManager
 private:
 	//With the constructor made private this class cannot be made with "new" keyword.
 	VAOManager* m_VaoManager;
+	int triangleCount, squareCount, circleCount = 0;
 public:
 	MeshManager(VAOManager* vaoManager);
 	Mesh* createSquare(float length);
