@@ -153,3 +153,8 @@ Transform* SceneNode::GetTransform()
 {
 	return m_transform;
 }
+
+Mesh* SceneNode::GetMesh()
+{
+	return m_meshes[0];
+}

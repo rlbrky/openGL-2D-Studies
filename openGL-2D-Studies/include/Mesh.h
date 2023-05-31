@@ -8,6 +8,7 @@ class Mesh
 {
 public:
 	void Draw(); //Uses glDrawElements
+	VertexArrayObject* GetVAO();
 private:
 	VertexArrayObject* m_Vao;
 	unsigned int m_IndexCount;

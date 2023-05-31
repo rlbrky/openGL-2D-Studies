@@ -36,6 +36,7 @@ public:
 
 	SceneNode* GetParent();
 	Transform* GetTransform();
+	Mesh* GetMesh();
 
 protected:
 	std::string					m_name;

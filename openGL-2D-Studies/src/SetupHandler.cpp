@@ -100,7 +100,7 @@ void SetupHandler::mouse_button_callback(GLFWwindow* window, int button, int act
 		
 		//handler->UpdateBuffer(); -> this should be called with data and buffer id.
 		// 
-		//HOW TO GET BUFFER ID ?
+		//HOW TO GET BUFFER ID ? May require collision
 		//Get child from root node in hierarchy then get child nodes mesh 
 		//from there take buffer id in VertexArrayObject class that is bound to that mesh.
 

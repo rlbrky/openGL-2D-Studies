@@ -3,6 +3,7 @@
 #include "Mesh.h"
 #include "MeshManager.h"
 #include "SceneNode.h"
+#include "VertexArrayObject.h"
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -10,6 +11,7 @@
 #include "imgui_stdlib.h"
 
 #include <iostream>
+#include <imgui_impl_opengl3_loader.h>
 
 UI::UI(MeshManager* meshManager, SceneNode* root)
 {
@@ -42,7 +44,7 @@ void UI::Draw()
 		{
 			squareCount++;
 			std::string name = "Square " + std::to_string(squareCount);
-			auto mesh = m_MeshManager->createSquare(0.5);
+			auto mesh = m_MeshManager->createSquare(0.5f);
 			SceneNode* squareNode = new SceneNode();
 			squareNode->AddMesh(mesh);
 			squareNode->SetName(name);
@@ -94,9 +96,23 @@ void UI::Draw()
 	glm::vec3 color = m_ActiveNode->GetColorValues();
 	ImGui::ColorEdit3("Color", (float*)&color);
 	m_ActiveNode->SetColorValues(color);
+
+	ImGui::Separator();
+	if (ImGui::Button("Get VboID"))
+	{
+		VertexTypeList vertices = {
+		-0.7 / 2, -0.7 / 2, 1.0f, //left bottom point 0
+		0.4 / 2, -0.4 / 2, 1.0f, // right bottom point 1 
+		-0.7 / 2, 0.7 / 2, 1.0f, //left top point 2 
+		0.7 / 2, 0.7 / 2, 1.0f // right top 3
+		};
+		glBindBuffer(GL_ARRAY_BUFFER, m_ActiveNode->GetMesh()->GetVAO()->GetVboID());
+		glBufferSubData(GL_ARRAY_BUFFER,0, sizeof(VertexTypes) * vertices.size(), &vertices[0]);
+	}
 	ImGui::End(); //End of Properties Panel
 
-	ImGui::Begin("File Management");
+	//Incomplete Save System
+	/*ImGui::Begin("File Management");
 	if (ImGui::Button("Save"))
 	{
 		//m_FileManager.SaveFile(m_Root);
@@ -109,7 +125,7 @@ void UI::Draw()
 	{
 		//Delete file
 	}
-	ImGui::End();
+	ImGui::End();*/
 
 	ImGui::Begin("Hierarchy"); //Hierarchy panel
 		DrawTree(m_Root);
@@ -158,31 +174,6 @@ void UI::DrawTree(SceneNode* node)
 		}
 	}
 }
-
-
-//DRAG DROP FAILED CODE
-//Selecting a second node how will that work ?
-//Never managed to enter payload section.
-
-	//The moment you grab the object create source
-/*	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) //No flags set bc every node is both source and targets.
-	{
-		//Set it to carry nodes
-		ImGui::SetDragDropPayload("Organise_Tree", &m_ActiveNode, sizeof(&m_ActiveNode));
-		ImGui::EndDragDropSource();
-	}
-
-	if (ImGui::BeginDragDropTarget())//Drop procedures.
-	{
-		std::cout << "PAYLOAD ACCEPTED" << std::endl;
-		if(const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Organise_Tree"))
-		 {
-			(SceneNode*)payload->Data
-		 }
-		
-		ImGui::EndDragDropTarget();
-	}
-	*/
 
 //OLD SYSTEM THAT LETS YOU SEE ALL ITEMS.
 /*

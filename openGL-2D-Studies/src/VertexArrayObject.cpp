@@ -35,6 +35,14 @@ void VertexArrayObject::Build(const VertexTypeList& vertices, const IndexList& i
 	m_IndexCount = indices.size();
 }
 
+unsigned int VertexArrayObject::GetVboID()
+{
+	if (m_VboID)
+		return m_VboID;
+	else
+		return 0;
+}
+
 void VertexArrayObject::Activate() {
 	glBindVertexArray(m_VaoID);
 	for (auto next : m_AttribList)

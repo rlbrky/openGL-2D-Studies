@@ -10,3 +10,8 @@ void Mesh::Draw() {
 
 	m_Vao->Deactivate();
 }
+
+VertexArrayObject* Mesh::GetVAO()
+{
+	return m_Vao;
+}

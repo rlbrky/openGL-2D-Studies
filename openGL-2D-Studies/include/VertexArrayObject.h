@@ -15,6 +15,8 @@ public:
 
 	void Build(const VertexTypeList& vertices, const IndexList& indexList);			//Standart Opengl pipeline with VAO, VBO, IBO
 
+	unsigned int GetVboID();
+
 	int GetIndexCount();
 	int GetVertexCount();
 
