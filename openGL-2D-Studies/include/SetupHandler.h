@@ -27,10 +27,17 @@ public:
 	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);							//A glfw function template for mouse scroll activities.
 	
 	GLFWwindow* GetWindowPtr()const;
+
+	void SetVertexList();
+	void SetVboIDList();
+	void SetObjCoordinates();
 private:
 	RenderFunctionList		m_RenderFunctionList;
 	GLFWwindow*				m_Window;
 	float									zoom;
 	Scene*								m_Scene;
 	int										m_Width, m_Height;
+	std::vector<glm::vec2>					m_ObjCoordinates;
+	std::vector<VertexTypeList>		m_VertexList;
+	std::vector<unsigned int>				m_VboIDList;
 };

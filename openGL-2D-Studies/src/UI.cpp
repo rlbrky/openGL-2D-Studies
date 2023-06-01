@@ -3,7 +3,6 @@
 #include "Mesh.h"
 #include "MeshManager.h"
 #include "SceneNode.h"
-#include "VertexArrayObject.h"
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -11,7 +10,7 @@
 #include "imgui_stdlib.h"
 
 #include <iostream>
-#include <imgui_impl_opengl3_loader.h>
+#include <glad.h>
 
 UI::UI(MeshManager* meshManager, SceneNode* root)
 {
@@ -101,13 +100,15 @@ void UI::Draw()
 	if (ImGui::Button("Get VboID"))
 	{
 		VertexTypeList vertices = {
-		-0.7 / 2, -0.7 / 2, 1.0f, //left bottom point 0
-		0.4 / 2, -0.4 / 2, 1.0f, // right bottom point 1 
-		-0.7 / 2, 0.7 / 2, 1.0f, //left top point 2 
-		0.7 / 2, 0.7 / 2, 1.0f // right top 3
+		   -0.35f, -0.35f, 1.0f,
+		   0.2f, -0.2f, 1.0f, 
+		   -0.35f, 0.35f, 1.0f, 
+		   0.35f, 0.35f, 1.0f 
 		};
+		
 		glBindBuffer(GL_ARRAY_BUFFER, m_ActiveNode->GetMesh()->GetVAO()->GetVboID());
-		glBufferSubData(GL_ARRAY_BUFFER,0, sizeof(VertexTypes) * vertices.size(), &vertices[0]);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(VertexTypes) * vertices.size(), &vertices[0]);
+		//The offset that is 0 rn can be changed to be the same as how we fed the data in VAO Class.
 	}
 	ImGui::End(); //End of Properties Panel
 
@@ -129,9 +130,35 @@ void UI::Draw()
 
 	ImGui::Begin("Hierarchy"); //Hierarchy panel
 		DrawTree(m_Root);
+		for(auto child : m_Root->GetChildList())
+		{
+			VertexTypeList vertices;
+			vertices.resize(12);
+			//std::cout << "X and Y of the Whole Object" << std::endl;
+			glBindBuffer(GL_ARRAY_BUFFER, child->GetMesh()->GetVAO()->GetVboID());
+			glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(VertexTypes)*vertices.size(), &vertices[0]);
+			m_ObjCoordinates.push_back(glm::vec2(child->GetTransform()->getPosition().x, child->GetTransform()->getPosition().y));
+			m_VertexList.push_back(vertices);
+			m_VboIDList.push_back(child->GetMesh()->GetVAO()->GetVboID());
+			//X***std::cout << child->GetTransform()->getMatrix()[2][0] << std::endl;
+			//Y***std::cout << child->GetTransform()->getMatrix()[2][1] << std::endl;
+			//std::cout << "-----------------------------------" << std::endl;
+		}
+		/*for (auto vertexElement : m_VertexList)
+		{
+			for (auto element : vertexElement)
+			{
+				std::cout << element << std::endl;
+			}
+		}*/
 	ImGui::End();
 }
-
+//VertexTypeList vertices = {
+//		-0.7 / 2, -0.7 / 2, 1.0f, //left bottom point 0
+//		0.4 / 2, -0.4 / 2, 1.0f, // right bottom point 1 
+//		-0.7 / 2, 0.7 / 2, 1.0f, //left top point 2 
+//		0.7 / 2, 0.7 / 2, 1.0f // right top 3
+//};
 void UI::DrawTree(SceneNode* node)
 {
 	if (node)
@@ -173,6 +200,21 @@ void UI::DrawTree(SceneNode* node)
 			ImGui::TreePop();
 		}
 	}
+}
+
+std::vector<VertexTypeList> UI::GetVertexList()
+{
+	return m_VertexList;
+}
+
+std::vector<unsigned int> UI::GetVboIDList()
+{
+	return m_VboIDList;
+}
+
+std::vector<glm::vec2> UI::GetObjCoordinates()
+{
+	return m_ObjCoordinates;
 }
 
 //OLD SYSTEM THAT LETS YOU SEE ALL ITEMS.

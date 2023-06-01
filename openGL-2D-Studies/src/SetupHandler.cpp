@@ -13,6 +13,21 @@ GLFWwindow* SetupHandler::GetWindowPtr()const
 	return m_Window;
 }
 
+void SetupHandler::SetVertexList()
+{
+	m_VertexList = m_Scene->GetUI()->GetVertexList();
+}
+
+void SetupHandler::SetVboIDList()
+{
+	m_VboIDList = m_Scene->GetUI()->GetVboIDList();
+}
+
+void SetupHandler::SetObjCoordinates()
+{
+	m_ObjCoordinates = m_Scene->GetUI()->GetObjCoordinates();
+}
+
 bool SetupHandler::Build(int width, int height)
 {
 	if (!glfwInit())
@@ -93,19 +108,26 @@ void SetupHandler::mouse_button_callback(GLFWwindow* window, int button, int act
 		double mouseX, mouseY;
 		glfwGetCursorPos(window, &mouseX, &mouseY);
 		
+		handler->SetVertexList();
+		handler->SetVboIDList();
+		handler->SetObjCoordinates();
+
+		for (int i = 0; i < handler->m_VboIDList.size(); i++)
+		{
+			for (int j = 0; j < handler->m_VertexList.at(i).size(); j++)
+			{
+				handler->m_VertexList.at(i).at(j); //Find a formula that works in each type of object.
+			}
+			//handler->m_ObjCoordinates.at(i).x + 
+		}//After calculating these hide them in a variable and use that to do comparison with mouse coordinates.
+
 		//Getting the x and y values in between -1,1 instead of pixel coordinates.
 		float x = (2.0f * mouseX) / handler->m_Width - 1.0f;
 		float y = 1.0f - (2.0f * mouseY) / handler->m_Height;
-		float z = 1.0f;
+		float z = 1.0f; 
 		
 		//handler->UpdateBuffer(); -> this should be called with data and buffer id.
-		// 
-		//HOW TO GET BUFFER ID ? May require collision
-		//Get child from root node in hierarchy then get child nodes mesh 
-		//from there take buffer id in VertexArrayObject class that is bound to that mesh.
 
-		//If the values above hits an object get that objects name and use it to get vao and then feed the new values.
-		//Feed this values into VAO? to manipulate object.
 
 		std::cout << "P_Cursor Position at (" << x << " : " << y << std::endl;
 	}
@@ -113,7 +135,7 @@ void SetupHandler::mouse_button_callback(GLFWwindow* window, int button, int act
 	{
 		double mouseX, mouseY;
 		glfwGetCursorPos(window, &mouseX, &mouseY);
-		std::cout << "R_Cursor Position at (" << mouseX << " : " << mouseY << std::endl;
+		std::cout << "R_Cursor Position at (" << mouseX << " : " << mouseY << std::endl; //FARENIN SON KOORDÝNATI KULLANILIR VE VERTEXLER YENÝDEN HESAPLANIR.
 		//Change object position
 	}
 	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
