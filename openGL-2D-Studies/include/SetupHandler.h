@@ -31,6 +31,7 @@ public:
 	void SetVertexList();
 	void SetVboIDList();
 	void SetObjCoordinates();
+	void SetLists();
 private:
 	RenderFunctionList		m_RenderFunctionList;
 	GLFWwindow*				m_Window;
@@ -39,5 +40,6 @@ private:
 	int										m_Width, m_Height;
 	std::vector<glm::vec2>					m_ObjCoordinates;
 	std::vector<VertexTypeList>		m_VertexList;
+	std::vector<VertexTypeList>		m_WcoordVertices;
 	std::vector<unsigned int>				m_VboIDList;
 };

@@ -24,6 +24,7 @@ public:
 
 	std::vector<VertexTypeList> GetVertexList();
 	std::vector<unsigned int> GetVboIDList();
+	std::vector<glm::vec2> GetObjCoordinates();
 
 private:
 	MeshManager*									m_MeshManager;
