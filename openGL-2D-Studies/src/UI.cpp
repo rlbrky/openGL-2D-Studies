@@ -20,6 +20,8 @@ UI::UI(MeshManager* meshManager, SceneNode* root)
 	m_Root = root;
 	m_ActiveNode = m_Root;
 	childToBeName = "";
+
+	rootChildCount = 0;
 }
 
 void UI::SetSceneNodeScale(float zoom)
@@ -49,6 +51,7 @@ void UI::Draw()
 			squareNode->SetName(name);
 			m_Root->AddChild(squareNode);
 			SetActiveNode(squareNode);
+			rootChildCount++;
 		}
 
 		if (ImGui::MenuItem("Triangle"))
@@ -61,6 +64,7 @@ void UI::Draw()
 			triangleNode->SetName(name);
 			m_Root->AddChild(triangleNode);
 			SetActiveNode(triangleNode);
+			rootChildCount++;
 		}
 
 		if (ImGui::MenuItem("Circle"))
@@ -73,6 +77,7 @@ void UI::Draw()
 			circleNode->SetName(name);
 			m_Root->AddChild(circleNode);
 			SetActiveNode(circleNode);
+			rootChildCount++;
 		}
 		ImGui::EndMenu();
 	}
@@ -130,19 +135,22 @@ void UI::Draw()
 
 	ImGui::Begin("Hierarchy"); //Hierarchy panel
 		DrawTree(m_Root);
-		for(auto child : m_Root->GetChildList())
-		{
-			VertexTypeList vertices;
-			vertices.resize(12);
-			//std::cout << "X and Y of the Whole Object" << std::endl;
-			glBindBuffer(GL_ARRAY_BUFFER, child->GetMesh()->GetVAO()->GetVboID());
-			glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(VertexTypes)*vertices.size(), &vertices[0]);
-			m_ObjCoordinates.push_back(glm::vec2(child->GetTransform()->getPosition().x, child->GetTransform()->getPosition().y));
-			m_VertexList.push_back(vertices);
-			m_VboIDList.push_back(child->GetMesh()->GetVAO()->GetVboID());
-			//X***std::cout << child->GetTransform()->getMatrix()[2][0] << std::endl;
-			//Y***std::cout << child->GetTransform()->getMatrix()[2][1] << std::endl;
-			//std::cout << "-----------------------------------" << std::endl;
+		if (oldChildCount != rootChildCount) {
+			oldChildCount = rootChildCount;
+			for(auto child : m_Root->GetChildList())
+			{
+				VertexTypeList vertices;
+				vertices.resize(12);
+				//std::cout << "X and Y of the Whole Object" << std::endl;
+				glBindBuffer(GL_ARRAY_BUFFER, child->GetMesh()->GetVAO()->GetVboID());
+				glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(VertexTypes)*vertices.size(), &vertices[0]);
+				m_ObjCoordinates.push_back(glm::vec2(child->GetTransform()->getPosition().x, child->GetTransform()->getPosition().y));
+				m_VertexList.push_back(vertices);
+				m_VboIDList.push_back(child->GetMesh()->GetVAO()->GetVboID());
+				//X***std::cout << child->GetTransform()->getMatrix()[2][0] << std::endl;
+				//Y***std::cout << child->GetTransform()->getMatrix()[2][1] << std::endl;
+				//std::cout << "-----------------------------------" << std::endl;
+			}
 		}
 		/*for (auto vertexElement : m_VertexList)
 		{

@@ -34,6 +34,6 @@ private:
 	std::vector<glm::vec2>					m_ObjCoordinates;
 	std::vector<VertexTypeList>		m_VertexList;
 	std::vector<unsigned int>				m_VboIDList;
-	int															triangleCount, circleCount, squareCount;
+	int															triangleCount, circleCount, squareCount, rootChildCount, oldChildCount;
 	std::string												childToBeName;
 };

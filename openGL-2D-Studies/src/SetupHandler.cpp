@@ -21,7 +21,6 @@ void SetupHandler::SetVertexList()
 void SetupHandler::SetVboIDList()
 {
 	m_VboIDList = m_Scene->GetUI()->GetVboIDList();
-	std::cout << m_VboIDList.size() << std::endl;
 }
 
 void SetupHandler::SetObjCoordinates()
@@ -116,19 +115,33 @@ void SetupHandler::mouse_button_callback(GLFWwindow* window, int button, int act
 		double mouseX, mouseY;
 		glfwGetCursorPos(window, &mouseX, &mouseY);
 
-		std::cout << handler->m_VboIDList.size() << std::endl;
-
 		for (int i = 0; i < handler->m_VboIDList.size(); i++)
 		{
 			VertexTypeList tempList;
 			for (int j = 0; j < handler->m_VertexList.at(i).size(); j += 3)
 			{
-				tempList.push_back(handler->m_ObjCoordinates.at(i).x * handler->m_VertexList.at(i).at(j));
-				tempList.push_back(handler->m_ObjCoordinates.at(i).y * handler->m_VertexList.at(i).at(j + 1));
+				if (handler->m_ObjCoordinates.at(i).x == 0 && handler->m_ObjCoordinates.at(i).y == 0)
+				{
+					tempList.push_back(handler->m_VertexList.at(i).at(j));
+					tempList.push_back(handler->m_VertexList.at(i).at(j + 1));
+				}
+				else if (handler->m_ObjCoordinates.at(i).x == 0 && handler->m_ObjCoordinates.at(i).y != 0) {
+					tempList.push_back(handler->m_VertexList.at(i).at(j));
+					tempList.push_back(handler->m_ObjCoordinates.at(i).y * handler->m_VertexList.at(i).at(j + 1));
+				}
+				else if (handler->m_ObjCoordinates.at(i).x != 0 && handler->m_ObjCoordinates.at(i).y == 0)
+				{
+					tempList.push_back(handler->m_ObjCoordinates.at(i).x *handler->m_VertexList.at(i).at(j));
+					tempList.push_back(handler->m_VertexList.at(i).at(j + 1));
+				}
+				else
+				{
+					tempList.push_back(handler->m_ObjCoordinates.at(i).x * handler->m_VertexList.at(i).at(j));
+					tempList.push_back(handler->m_ObjCoordinates.at(i).y * handler->m_VertexList.at(i).at(j + 1));
+				}
 				tempList.push_back(handler->m_VertexList.at(i).at(j + 2));
-				/*std::cout << tempList.at(0) << std::endl;
-				std::cout << tempList.at(1) << std::endl;*/
 			}
+				
 			handler->m_WcoordVertices.push_back(tempList);
 		}//After calculating these hide them in a variable and use that to do comparison with mouse coordinates.
 
@@ -140,11 +153,12 @@ void SetupHandler::mouse_button_callback(GLFWwindow* window, int button, int act
 		if (!handler->m_WcoordVertices.empty() && !handler->m_WcoordVertices.at(0).empty())
 		{
 			std::cout << handler->m_WcoordVertices.at(0).at(9) - 0.1f << std::endl;
-			std::cout << handler->m_WcoordVertices.at(0).at(9) + 0.1f << std::endl;
-			/*if(x >= (handler->m_WcoordVertices.at(0).at(9) - 0.1f) && x <= (handler->m_WcoordVertices.at(0).at(9) + 0.1f)
-				&& y >= (handler->m_WcoordVertices.at(0).at(10) - 0.1f)
-				&& y <= (handler->m_WcoordVertices.at(0).at(10) + 0.1f))
-					std::cout << "HIT" << std::endl;*/
+			std::cout << handler->m_WcoordVertices.at(0).at(10) + 0.1f << std::endl;
+
+			if(x >= (handler->m_WcoordVertices.at(0).at(9) - 0.05f) && x <= (handler->m_WcoordVertices.at(0).at(9) + 0.05f)
+				&& y >= (handler->m_WcoordVertices.at(0).at(10) - 0.05f)
+				&& y <= (handler->m_WcoordVertices.at(0).at(10) + 0.05f))
+					std::cout << "HIT" << std::endl;
 		}
 
 		//handler->UpdateBuffer(); -> this should be called with data and buffer id.
