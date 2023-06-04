@@ -32,6 +32,8 @@ void VertexArrayObject::Build(const VertexTypeList& vertices, const IndexList& i
 	m_AttribList.push_back(0);
 	m_AttribList.push_back(1);
 
+	verticesSize = vertices.size();
+
 	m_IndexCount = indices.size();
 }
 
@@ -61,6 +63,11 @@ int VertexArrayObject::GetIndexCount() {
 
 int VertexArrayObject::GetVertexCount() {
 	return m_VertexCount;
+}
+
+int VertexArrayObject::GetVerticesSize()
+{
+	return verticesSize;
 }
 
 VertexArrayObject::~VertexArrayObject() {

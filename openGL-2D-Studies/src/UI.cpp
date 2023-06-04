@@ -140,25 +140,18 @@ void UI::Draw()
 			for(auto child : m_Root->GetChildList())
 			{
 				VertexTypeList vertices;
-				vertices.resize(12);
-				//std::cout << "X and Y of the Whole Object" << std::endl;
+				vertices.resize(child->GetMesh()->GetVAO()->GetVerticesSize());
 				glBindBuffer(GL_ARRAY_BUFFER, child->GetMesh()->GetVAO()->GetVboID());
 				glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(VertexTypes)*vertices.size(), &vertices[0]);
-				m_ObjCoordinates.push_back(glm::vec2(child->GetTransform()->getPosition().x, child->GetTransform()->getPosition().y));
 				m_VertexList.push_back(vertices);
 				m_VboIDList.push_back(child->GetMesh()->GetVAO()->GetVboID());
-				//X***std::cout << child->GetTransform()->getMatrix()[2][0] << std::endl;
-				//Y***std::cout << child->GetTransform()->getMatrix()[2][1] << std::endl;
-				//std::cout << "-----------------------------------" << std::endl;
 			}
 		}
-		/*for (auto vertexElement : m_VertexList)
+		m_ObjCoordinates.clear();
+		for (auto child : m_Root->GetChildList())
 		{
-			for (auto element : vertexElement)
-			{
-				std::cout << element << std::endl;
-			}
-		}*/
+			m_ObjCoordinates.push_back(glm::vec2(child->GetTransform()->getPosition().x, child->GetTransform()->getPosition().y));
+		}
 	ImGui::End();
 }
 //VertexTypeList vertices = {

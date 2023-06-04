@@ -42,4 +42,8 @@ private:
 	std::vector<VertexTypeList>		m_VertexList;
 	std::vector<VertexTypeList>		m_WcoordVertices;
 	std::vector<unsigned int>				m_VboIDList;
+	VertexTypeList verticesPrev;
+	VertexTypeList verticesLast;
+	int i,j;
+	int prevVboIDListSize;
 };

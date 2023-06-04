@@ -115,63 +115,91 @@ void SetupHandler::mouse_button_callback(GLFWwindow* window, int button, int act
 		double mouseX, mouseY;
 		glfwGetCursorPos(window, &mouseX, &mouseY);
 
-		for (int i = 0; i < handler->m_VboIDList.size(); i++)
+		if (handler->m_VboIDList.size() != handler->prevVboIDListSize)
 		{
-			VertexTypeList tempList;
-			for (int j = 0; j < handler->m_VertexList.at(i).size(); j += 3)
-			{
-				if (handler->m_ObjCoordinates.at(i).x == 0 && handler->m_ObjCoordinates.at(i).y == 0)
-				{
-					tempList.push_back(handler->m_VertexList.at(i).at(j));
-					tempList.push_back(handler->m_VertexList.at(i).at(j + 1));
-				}
-				else if (handler->m_ObjCoordinates.at(i).x == 0 && handler->m_ObjCoordinates.at(i).y != 0) {
-					tempList.push_back(handler->m_VertexList.at(i).at(j));
-					tempList.push_back(handler->m_ObjCoordinates.at(i).y * handler->m_VertexList.at(i).at(j + 1));
-				}
-				else if (handler->m_ObjCoordinates.at(i).x != 0 && handler->m_ObjCoordinates.at(i).y == 0)
-				{
-					tempList.push_back(handler->m_ObjCoordinates.at(i).x *handler->m_VertexList.at(i).at(j));
-					tempList.push_back(handler->m_VertexList.at(i).at(j + 1));
-				}
-				else
-				{
-					tempList.push_back(handler->m_ObjCoordinates.at(i).x * handler->m_VertexList.at(i).at(j));
-					tempList.push_back(handler->m_ObjCoordinates.at(i).y * handler->m_VertexList.at(i).at(j + 1));
-				}
-				tempList.push_back(handler->m_VertexList.at(i).at(j + 2));
-			}
-				
-			handler->m_WcoordVertices.push_back(tempList);
-		}//After calculating these hide them in a variable and use that to do comparison with mouse coordinates.
+			handler->m_WcoordVertices.clear();
+			handler->prevVboIDListSize = handler->m_VboIDList.size();
 
+			if (!handler->m_ObjCoordinates.empty())
+			{
+				for (int i = 0; i < handler->m_VboIDList.size(); i++)
+				{
+					VertexTypeList tempList;
+					for (int j = 0; j < handler->m_VertexList.at(i).size(); j += 3)
+					{
+						if (handler->m_ObjCoordinates.at(i).x == 0.0f && handler->m_ObjCoordinates.at(i).y == 0.0f)
+						{
+							tempList.push_back(handler->m_VertexList.at(i).at(j));
+							tempList.push_back(handler->m_VertexList.at(i).at(j + 1));
+						}
+						else if (handler->m_ObjCoordinates.at(i).x == 0.0f && handler->m_ObjCoordinates.at(i).y != 0.0f)
+						{
+							tempList.push_back(handler->m_VertexList.at(i).at(j));
+							tempList.push_back(handler->m_ObjCoordinates.at(i).y * handler->m_VertexList.at(i).at(j + 1));
+						}
+						else if (handler->m_ObjCoordinates.at(i).x != 0.0f && handler->m_ObjCoordinates.at(i).y == 0.0f)
+						{
+							tempList.push_back(handler->m_ObjCoordinates.at(i).x * handler->m_VertexList.at(i).at(j));
+							tempList.push_back(handler->m_VertexList.at(i).at(j + 1));
+						}
+						else if (handler->m_ObjCoordinates.at(i).x != 0.0f && handler->m_ObjCoordinates.at(i).y != 0.0f)
+						{
+							tempList.push_back(handler->m_ObjCoordinates.at(i).x * handler->m_VertexList.at(i).at(j));
+							tempList.push_back(handler->m_ObjCoordinates.at(i).y * handler->m_VertexList.at(i).at(j + 1));
+						}
+						tempList.push_back(handler->m_VertexList.at(i).at(j + 2));
+					}
+					handler->m_WcoordVertices.push_back(tempList);
+				}
+			}
+		}
+		
 		//Getting the x and y values in between -1,1 instead of pixel coordinates.
 		float x = (2.0f * mouseX) / handler->m_Width - 1.0f;
 		float y = 1.0f - (2.0f * mouseY) / handler->m_Height;
 		float z = 1.0f; 
 
-		if (!handler->m_WcoordVertices.empty() && !handler->m_WcoordVertices.at(0).empty())
+		for (int i = 0; i < handler->m_WcoordVertices.size() ; i++)
 		{
-			std::cout << handler->m_WcoordVertices.at(0).at(9) - 0.1f << std::endl;
-			std::cout << handler->m_WcoordVertices.at(0).at(10) + 0.1f << std::endl;
-
-			if(x >= (handler->m_WcoordVertices.at(0).at(9) - 0.05f) && x <= (handler->m_WcoordVertices.at(0).at(9) + 0.05f)
-				&& y >= (handler->m_WcoordVertices.at(0).at(10) - 0.05f)
-				&& y <= (handler->m_WcoordVertices.at(0).at(10) + 0.05f))
-					std::cout << "HIT" << std::endl;
+			if (!handler->m_WcoordVertices.empty() && !handler->m_WcoordVertices.at(i).empty())
+			{
+				for (int j = 0; j < handler->m_WcoordVertices.at(i).size(); j+=3)
+				{
+					if (x >= (handler->m_WcoordVertices.at(i).at(j) - 0.05f) && x <= (handler->m_WcoordVertices.at(i).at(j) + 0.05f)
+						&& y >= (handler->m_WcoordVertices.at(i).at(j+1) - 0.05f)
+						&& y <= (handler->m_WcoordVertices.at(i).at(j+1) + 0.05f))
+					{
+						handler->verticesPrev = handler->m_WcoordVertices.at(i);
+						handler->j = j;
+					}
+				}
+			}
 		}
-
 		//handler->UpdateBuffer(); -> this should be called with data and buffer id.
 
 
 		std::cout << "P_Cursor Position at (" << x << " : " << y << std::endl;
 	}
+
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
 	{
 		double mouseX, mouseY;
 		glfwGetCursorPos(window, &mouseX, &mouseY);
 		std::cout << "R_Cursor Position at (" << mouseX << " : " << mouseY << std::endl; //FARENIN SON KOORDÝNATI KULLANILIR VE VERTEXLER YENÝDEN HESAPLANIR.
-		//Change object position
+
+		float x = (2.0f * mouseX) / handler->m_Width - 1.0f;
+		float y = 1.0f - (2.0f * mouseY) / handler->m_Height;
+		float z = 1.0f;
+
+		if (!handler->verticesPrev.empty())
+		{
+			handler->verticesPrev.at(handler->j) = x;
+			handler->verticesPrev.at(handler->j + 1) = y;
+
+			handler->verticesLast = handler->verticesPrev;
+
+			handler->UpdateBuffer(handler->m_VboIDList.at(handler->i), 0, &handler->verticesLast[0], sizeof(VertexTypes) * handler->verticesLast.size(), GL_ARRAY_BUFFER);
+		}
 	}
 	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	//if (glfwRawMouseMotionSupported())

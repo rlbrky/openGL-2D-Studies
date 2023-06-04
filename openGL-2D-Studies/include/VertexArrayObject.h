@@ -9,6 +9,7 @@ private:
 	std::vector<unsigned int> m_AttribList;
 	unsigned int m_IndexCount;
 	unsigned int m_VertexCount;
+	int verticesSize;
 public:
 	VertexArrayObject();
 	~VertexArrayObject();
@@ -19,6 +20,8 @@ public:
 
 	int GetIndexCount();
 	int GetVertexCount();
+
+	int GetVerticesSize();
 
 	void Activate();																														//Bind vertexArray and VertexAttribArray
 	void Deactivate();
