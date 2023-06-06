@@ -45,5 +45,4 @@ private:
 	VertexTypeList verticesPrev;
 	VertexTypeList verticesLast;
 	int i,j;
-	int prevVboIDListSize;
 };

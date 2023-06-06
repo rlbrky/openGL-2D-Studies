@@ -21,7 +21,7 @@ int main() {
 
 	setupHandler->SetScene(scene);
 	
-	setupHandler->AddRenderFunction(std::bind(&SetupHandler::SetLists, setupHandler));
+	//setupHandler->AddRenderFunction(std::bind(&SetupHandler::SetLists, setupHandler));
 	setupHandler->AddRenderFunction(std::bind(&Scene::Update, scene));
 	setupHandler->AddRenderFunction(std::bind(&Scene::Draw, scene));
 

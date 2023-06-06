@@ -147,7 +147,9 @@ void UI::Draw()
 				m_VboIDList.push_back(child->GetMesh()->GetVAO()->GetVboID());
 			}
 		}
-		m_ObjCoordinates.clear();
+		if (!m_ObjCoordinates.empty()) {
+			m_ObjCoordinates.clear();
+		}
 		for (auto child : m_Root->GetChildList())
 		{
 			m_ObjCoordinates.push_back(glm::vec2(child->GetTransform()->getPosition().x, child->GetTransform()->getPosition().y));
