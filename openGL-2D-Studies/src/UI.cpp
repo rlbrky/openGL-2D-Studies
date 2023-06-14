@@ -40,7 +40,6 @@ void UI::Draw()
 	ImGui::Begin("Menu");
 	if(ImGui::BeginMenu("Object Creator"))
 	{
-		//TO DO: Every object should have their own color manipulation. Every object should move on their own.
 		if (ImGui::MenuItem("Square"))
 		{
 			squareCount++;
@@ -137,6 +136,8 @@ void UI::Draw()
 		DrawTree(m_Root);
 		if (oldChildCount != rootChildCount) {
 			oldChildCount = rootChildCount;
+			m_VertexList.clear();
+			m_VboIDList.clear();
 			for(auto child : m_Root->GetChildList())
 			{
 				VertexTypeList vertices;

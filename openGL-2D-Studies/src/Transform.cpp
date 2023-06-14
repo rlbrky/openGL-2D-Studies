@@ -70,8 +70,7 @@ void Transform::Update()
 	//mtxScale = glm::scale(mtxScale, glm::vec2(1.0f,  m_AspectRatio));
 	//mtxScale = glm::scale(mtxScale, glm::vec2(m_scale.x / m_AspectRatio, 1.0f));
 
-	mtxRot = glm::rotate(glm::mat3(1),
-																glm::radians(m_Rotation.x));
+	mtxRot = glm::rotate(glm::mat3(1),glm::radians(m_Rotation.x));
 
 	ApplyParent(m_Parent);
 

@@ -28,9 +28,6 @@ public:
 	
 	GLFWwindow* GetWindowPtr()const;
 
-	void SetVertexList();
-	void SetVboIDList();
-	void SetObjCoordinates();
 	void SetLists();
 private:
 	RenderFunctionList		m_RenderFunctionList;
@@ -41,8 +38,9 @@ private:
 	std::vector<glm::vec2>					m_ObjCoordinates;
 	std::vector<VertexTypeList>		m_VertexList;
 	std::vector<VertexTypeList>		m_WcoordVertices;
+	std::vector<std::vector<VertexTypeList>>		m_objNWorldCoord;
 	std::vector<unsigned int>				m_VboIDList;
-	VertexTypeList verticesPrev;
-	VertexTypeList verticesLast;
-	int i,j;
+	VertexTypeList									verticesPrev;
+	VertexTypeList									verticesLast;
+	int															i,j,k;
 };

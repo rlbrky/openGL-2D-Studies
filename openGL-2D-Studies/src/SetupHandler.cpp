@@ -13,26 +13,12 @@ GLFWwindow* SetupHandler::GetWindowPtr()const
 	return m_Window;
 }
 
-void SetupHandler::SetVertexList()
-{
-	m_VertexList = m_Scene->GetUI()->GetVertexList();
-}
-
-void SetupHandler::SetVboIDList()
-{
-	m_VboIDList = m_Scene->GetUI()->GetVboIDList();
-}
-
-void SetupHandler::SetObjCoordinates()
-{
-	m_ObjCoordinates = m_Scene->GetUI()->GetObjCoordinates();
-}
-
 void SetupHandler::SetLists()
 {
-	SetObjCoordinates();
-	SetVboIDList();
-	SetVertexList();
+	m_VertexList = m_Scene->GetUI()->GetVertexList();
+	m_VboIDList = m_Scene->GetUI()->GetVboIDList();
+	m_ObjCoordinates = m_Scene->GetUI()->GetObjCoordinates();
+	i, j, k = -1;
 }
 
 bool SetupHandler::Build(int width, int height)
@@ -102,25 +88,27 @@ Scene* SetupHandler::GetScene()
 	return m_Scene;
 }
 
-void SetupHandler::UpdateBuffer(unsigned int& id, unsigned int offset, void* data, unsigned int size, unsigned int type) {
-	glBindBuffer(type, id);
-	glBufferSubData(type, offset, size, data);
+void SetupHandler::UpdateBuffer(unsigned int& id, unsigned int offset, void* data, unsigned int size, unsigned int target) {
+	glBindBuffer(target, id);
+	glBufferSubData(target, offset, size, data);
 }
 
 void SetupHandler::mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
 	SetupHandler* handler = static_cast<SetupHandler*>(glfwGetWindowUserPointer(window));
-	handler->SetLists();
+
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
 	{
+		handler->m_WcoordVertices.clear();
+		handler->m_objNWorldCoord.clear();
+
+		handler->SetLists();
+
 		double mouseX, mouseY;
 		glfwGetCursorPos(window, &mouseX, &mouseY);
 		
-		handler->m_WcoordVertices.clear();
-		for (int i = 0; i < handler->m_VboIDList.size(); i++)
+		for (int i = 0; i < handler->m_ObjCoordinates.size(); i++) //Saves local vertex data as world coordinates of vertices
 		{
-			if (handler->m_ObjCoordinates.size() >= (i + 1))
-			{
 			VertexTypeList tempList;
 			for (int j = 0; j < handler->m_VertexList.at(i).size(); j += 3)
 			{
@@ -144,30 +132,34 @@ void SetupHandler::mouse_button_callback(GLFWwindow* window, int button, int act
 					tempList.push_back(handler->m_ObjCoordinates.at(i).x * handler->m_VertexList.at(i).at(j));
 					tempList.push_back(handler->m_ObjCoordinates.at(i).y * handler->m_VertexList.at(i).at(j + 1));
 				}
-				tempList.push_back(handler->m_VertexList.at(i).at(j + 2));
+				tempList.push_back(1.0f);
+				handler->m_WcoordVertices.push_back(tempList);
 			}
-			handler->m_WcoordVertices.push_back(tempList);
-			}
+			handler->m_objNWorldCoord.push_back(handler->m_WcoordVertices);
 		}
+
 		//Getting the x and y values in between -1,1 instead of pixel coordinates.
 		float x = (2.0f * mouseX) / handler->m_Width - 1.0f;
 		float y = 1.0f - (2.0f * mouseY) / handler->m_Height;
 		float z = 1.0f; 
 
-		for (int i = 0; i < handler->m_WcoordVertices.size() ; i++)
+		for (int i = 0; i < handler->m_objNWorldCoord.size(); i++)
 		{
-			if (!handler->m_WcoordVertices.empty() && !handler->m_WcoordVertices.at(i).empty())
+			for (int j = 0; j < handler->m_WcoordVertices.size() ; j++)
 			{
-				for (int j = 0; j < handler->m_WcoordVertices.at(i).size(); j+=3)
+				if (!handler->m_WcoordVertices.empty() && !handler->m_WcoordVertices.at(j).empty())
 				{
-					if (x >= (handler->m_WcoordVertices.at(i).at(j) - 0.05f) && x <= (handler->m_WcoordVertices.at(i).at(j) + 0.05f)
-						&& y >= (handler->m_WcoordVertices.at(i).at(j+1) - 0.05f)
-						&& y <= (handler->m_WcoordVertices.at(i).at(j+1) + 0.05f))
+					for (int k = 0;k < handler->m_WcoordVertices.at(j).size(); k+=3)
 					{
-						std::cout << i << std::endl;
-						handler->verticesPrev = handler->m_WcoordVertices.at(i);
-						handler->i = i;
-						handler->j = j;
+						if (x >= (handler->m_WcoordVertices.at(j).at(k) - 0.05f) && x <= (handler->m_WcoordVertices.at(j).at(k) + 0.05f)
+							&& y >= (handler->m_WcoordVertices.at(j).at(k+1) - 0.05f)
+							&& y <= (handler->m_WcoordVertices.at(j).at(k+1) + 0.05f))
+						{
+							std::cout << "Vertex saved " << i << std::endl;
+							handler->i = i;
+							handler->j = j;
+							handler->k = k;
+						}
 					}
 				}
 			}
@@ -184,18 +176,23 @@ void SetupHandler::mouse_button_callback(GLFWwindow* window, int button, int act
 		float x = (2.0f * mouseX) / handler->m_Width - 1.0f;
 		float y = 1.0f - (2.0f * mouseY) / handler->m_Height;
 		float z = 1.0f;
-
-		if (!handler->verticesPrev.empty() && handler->i != NULL && handler->j != NULL)
+		if (!handler->m_WcoordVertices.empty() && handler->i != -1 && handler->j != -1 && handler->k != -1)
 		{
-			handler->verticesPrev.at(handler->j) = x;
-			handler->verticesPrev.at(handler->j + 1) = y;
+			if (!handler->m_WcoordVertices.at(handler->j).empty() && !handler->m_objNWorldCoord.at(handler->i).empty())
+			{
+				handler->m_WcoordVertices.at(handler->j).at(handler->k) = x;
+				handler->m_WcoordVertices.at(handler->j).at(handler->k + 1) = y;
 
-			handler->verticesLast = handler->verticesPrev;
+				/*std::cout << "I : " << handler->i << std::endl;
+				std::cout << "J : " << handler->j << std::endl;
+				std::cout << "K : " << handler->k << std::endl;*/
 
-			handler->UpdateBuffer(handler->m_VboIDList.at(handler->i), 0, &handler->verticesLast[0], sizeof(VertexTypes) * handler->verticesLast.size(), GL_ARRAY_BUFFER);
+				handler->UpdateBuffer(handler->m_VboIDList.at(handler->i), 0, &handler->m_WcoordVertices.at(handler->j).at(0), sizeof(VertexTypes) * handler->m_WcoordVertices.at(handler->j).size(), GL_ARRAY_BUFFER);
 
-			handler->i = NULL;
-			handler->j = NULL;
+				handler->i = -1;
+				handler->j = -1;
+				handler->k = -1;
+			}
 		}
 	}
 	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
